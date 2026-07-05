@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>🇯🇵 東京・箱根 2027</title>
+<style>
+  :root {
+    --primary: #2d6a4f;
+    --accent: #b7d1c0;
+    --light: #f7f9f8;
+    --text: #2c2c2c;
+    --subtext: #7a7a7a;
+    --border: #e8eee9;
+    --tag-food: #fff0e6;
+    --tag-food-text: #c0693a;
+    --tag-sight: #e6f0ff;
+    --tag-sight-text: #3a6cc0;
+    --tag-hotel: #f0e6ff;
+    --tag-hotel-text: #7a3ac0;
+    --tag-transport: #e6fff0;
+    --tag-transport-text: #3ac07a;
+    --nav-height: 64px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, 'Hiragino Sans', 'Yu Gothic', sans-serif;
+    background: var(--light);
+    color: var(--text);
+    max-width: 430px;
+    margin: 0 auto;
+    position: relative;
+    min-height: 100vh;
+  }
+  .header { background: white; padding: 20px 16px 12px; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+  .header-top { display: flex; align-items: center; justify-content: space-between; }
+  .header h1 { font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
+  .header p { font-size: 12px; color: var(--subtext); margin-top: 2px; }
+  .header-flag { font-size: 24px; }
+  .tabs { display: flex; overflow-x: auto; gap: 6px; padding: 10px 16px; background: white; border-bottom: 1px solid var(--border); scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab-btn { flex-shrink: 0; padding: 6px 14px; border-radius: 20px; border: 1.5px solid var(--border); background: white; font-size: 13px; color: var(--subtext); cursor: pointer; white-space: nowrap; }
+  .tab-btn.active { background: var(--primary); border-color: var(--primary); color: white; font-weight: 600; }
+  .page { display: none; padding: 16px 16px 100px; }
+  .page.active { display: block; }
+  .day-selector { display: flex; overflow-x: auto; gap: 8px; padding-bottom: 14px; scrollbar-width: none; }
+  .day-selector::-webkit-scrollbar { display: none; }
+  .day-btn { flex-shrink: 0; width: 52px; padding: 8px 4px; border-radius: 12px; border: 1.5px solid var(--border); background: white; text-align: center; cursor: pointer; }
+  .day-btn .day-num { font-size: 18px; font-weight: 700; color: var(--primary); }
+  .day-btn .day-label { font-size: 10px; color: var(--subtext); margin-top: 2px; }
+  .day-btn.active { background: var(--primary); border-color: var(--primary); }
+  .day-btn.active .day-num, .day-btn.active .day-label { color: white; }
+  .day-header { background: white; border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; border: 1px solid var(--border); }
+  .day-header h2 { font-size: 16px; font-weight: 700; }
+  .day-header p { font-size: 12px; color: var(--subtext); margin-top: 3px; }
+  .timeline-item { display: flex; gap: 12px; margin-bottom: 4px; }
+  .timeline-left { display: flex; flex-direction: column; align-items: center; width: 48px; flex-shrink: 0; }
+  .timeline-time { font-size: 11px; font-weight: 600; color: var(--primary); white-space: nowrap; }
+  .timeline-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--primary); margin: 4px 0; flex-shrink: 0; }
+  .timeline-line { width: 2px; flex: 1; background: var(--accent); min-height: 20px; }
+  .timeline-content { flex: 1; padding-bottom: 14px; }
+  .card { background: white; border-radius: 14px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 2px; }
+  .card-body { padding: 12px 14px; }
+  .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+  .card-title { font-size: 15px; font-weight: 700; line-height: 1.3; }
+  .card-title-jp { font-size: 11px; color: var(--subtext); margin-top: 1px; }
+  .tag { flex-shrink: 0; font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 20px; }
+  .tag-food { background: var(--tag-food); color: var(--tag-food-text); }
+  .tag-sight { background: var(--tag-sight); color: var(--tag-sight-text); }
+  .tag-hotel { background: var(--tag-hotel); color: var(--tag-hotel-text); }
+  .tag-transport { background: var(--tag-transport); color: var(--tag-transport-text); }
+  .card-meta { margin-top: 8px; display: flex; flex-direction: column; gap: 4px; }
+  .meta-row { display: flex; align-items: flex-start; gap: 6px; font-size: 12px; color: var(--subtext); }
+  .meta-row .icon { width: 14px; flex-shrink: 0; }
+  .meta-row span { flex: 1; }
+  .card-desc { margin-top: 8px; font-size: 12px; color: #555; line-height: 1.6; padding-top: 8px; border-top: 1px solid var(--border); }
+  .card-tip { margin-top: 6px; background: #fffbe6; border-left: 3px solid #f5c842; padding: 6px 10px; border-radius: 0 8px 8px 0; font-size: 11px; color: #7a6500; line-height: 1.5; }
+  .btn-row { display: flex; gap: 8px; margin-top: 10px; }
+  .btn-map { flex: 1; padding: 9px; background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 12px; font-weight: 600; text-align: center; text-decoration: none; display: block; }
+  .btn-reserve { flex: 1; padding: 9px; background: white; color: var(--primary); border: 1.5px solid var(--primary); border-radius: 10px; font-size: 12px; font-weight: 600; text-align: center; text-decoration: none; display: block; }
+  .transport-card { background: var(--tag-transport); border-radius: 10px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; font-size: 12px; }
+  .transport-card .icon { font-size: 20px; }
+  .transport-card .info { flex: 1; }
+  .transport-card .info strong { font-size: 13px; color: var(--text); }
+  .transport-card .info span { color: var(--subtext); }
+  .transport-card .cost { font-weight: 700; color: var(--primary); font-size: 13px; }
+  .section-title { font-size: 13px; font-weight: 700; color: var(--subtext); letter-spacing: 0.5px; text-transform: uppercase; margin: 16px 0 8px; }
+  .hotel-card { background: white; border-radius: 14px; border: 1px solid var(--border); padding: 14px 16px; margin-bottom: 12px; }
+  .hotel-card h3 { font-size: 15px; font-weight: 700; }
+  .hotel-card .dates { font-size: 12px; color: var(--subtext); margin: 3px 0 8px; }
+  .hotel-detail { font-size: 12px; color: #555; display: flex; gap: 6px; margin-bottom: 4px; }
+  .confirm-badge { display: inline-block; background: #e6fff0; color: #3ac07a; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-bottom: 8px; }
+  .budget-card { background: white; border-radius: 14px; border: 1px solid var(--border); padding: 14px 16px; margin-bottom: 10px; }
+  .budget-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .budget-row:last-child { border-bottom: none; font-weight: 700; }
+  .budget-row .label { color: var(--subtext); }
+  .budget-row .amount { font-weight: 600; color: var(--primary); }
+  .checklist { list-style: none; }
+  .checklist li { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .checklist li input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--primary); flex-shrink: 0; margin-top: 2px; }
+  .info-card { background: white; border-radius: 14px; border: 1px solid var(--border); padding: 14px 16px; margin-bottom: 10px; }
+  .info-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .info-card p { font-size: 12px; color: #555; line-height: 1.7; }
+  .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; height: var(--nav-height); background: white; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-around; z-index: 200; overflow-x: auto; }
+  .nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; padding: 6px 8px; border-radius: 10px; flex-shrink: 0; }
+  .nav-item .nav-icon { font-size: 18px; }
+  .nav-item .nav-label { font-size: 9px; color: var(--subtext); font-weight: 500; }
+  .nav-item.active .nav-label { color: var(--primary); font-weight: 700; }
+  .rating { color: #f5a623; font-size: 11px; margin-top: 2px; }
+  .day-content { display: none; }
+  .day-content.active { display: block; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div><h1>🇯🇵 東京・箱根 2027</h1><p>Jan 19–28 ・ 4 Travelers ・ 9 Nights</p></div>
+    <span class="header-flag">✈️</span>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('itinerary')">📅 行程</button>
+  <button class="tab-btn" onclick="switchTab('hotel')">🏨 住宿</button>
+  <button class="tab-btn" onclick="switchTab('transport')">🚇 交通</button>
+  <button class="tab-btn" onclick="switchTab('foodbank')">🍽️ 食庫</button>
+  <button class="tab-btn" onclick="switchTab('budget')">💰 預算</button>
+  <button class="tab-btn" onclick="switchTab('luggage')">🧳 行李</button>
+  <button class="tab-btn" onclick="switchTab('info')">ℹ️ 資訊</button>
+</div>
+
+<div id="page-itinerary" class="page active">
+  <div class="day-selector">
+    <div class="day-btn active" onclick="switchDay(1, this)"><div class="day-num">1</div><div class="day-label">1/19</div></div>
+    <div class="day-btn" onclick="switchDay(2, this)"><div class="day-num">2</div><div class="day-label">1/20</div></div>
+    <div class="day-btn" onclick="switchDay(3, this)"><div class="day-num">3</div><div class="day-label">1/21</div></div>
+    <div class="day-btn" onclick="switchDay(4, this)"><div class="day-num">4</div><div class="day-label">1/22</div></div>
+    <div class="day-btn" onclick="switchDay(5, this)"><div class="day-num">5</div><div class="day-label">1/23</div></div>
+    <div class="day-btn" onclick="switchDay(6, this)"><div class="day-num">6</div><div class="day-label">1/24</div></div>
+    <div class="day-btn" onclick="switchDay(7, this)"><div class="day-num">7</div><div class="day-label">1/25</div></div>
+    <div class="day-btn" onclick="switchDay(8, this)"><div class="day-num">8</div><div class="day-label">1/26</div></div>
+    <div class="day-btn" onclick="switchDay(9, this)"><div class="day-num">9</div><div class="day-label">1/27</div></div>
+    <div class="day-btn" onclick="switchDay(10, this)"><div class="day-num">10</div><div class="day-label">1/28</div></div>
+    <div class="day-btn" onclick="switchDay(11, this)"><div class="day-num">+</div><div class="day-label">川越</div></div>
+    <div class="day-btn" onclick="switchDay(12, this)"><div class="day-num">+</div><div class="day-label">鎌倉</div></div>
+  </div>
+
+  <div id="day-1" class="day-content active">
+    <div class="day-header"><h2>Day 1 ・ 抵達東京・新宿之夜</h2><p>📍 新宿・歌舞伎町 ｜ 🏨 APA Hotel</p></div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">08:25</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content"><div class="transport-card"><div class="icon">✈️</div><div class="info"><strong>JX800 星宇航空</strong><br><span>桃園TPE→成田NRT・A350-1000・確認碼BZ5WVQ</span></div></div></div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">12:35</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">抵達成田機場 NRT</div></div><span class="tag tag-transport">交通</span></div>
+            <div class="card-meta"><div class="meta-row"><span class="icon">💴</span><span>Suica押金¥500+充值¥5,000</span></div></div>
+            <div class="btn-row"><a class="btn-reserve" href="https://www.klook.com/zh-TW/activity/2178-narita-airport-limousine-bus-tokyo/" target="_blank">🎟 買巴士票</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">13:30</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content"><div class="transport-card"><div class="icon">🚌</div><div class="info"><strong>利木津巴士</strong><br><span>成田NRT→歌舞伎町・約85分</span></div><div class="cost">¥2,800</div></div></div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">15:30</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">APA Hotel 新宿歌舞伎町</div></div><span class="tag tag-hotel">住宿</span></div>
+            <div class="card-meta"><div class="meta-row"><span class="icon">💴</span><span>¥28,764（2間房・1晚）</span></div></div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/APA-Shinjuku" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">17:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">哥斯拉頭 Godzilla Head</div></div><span class="tag tag-sight">景點</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/godzilla-shinjuku" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">19:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">思い出横丁 記憶小路</div></div><span class="tag tag-food">餐廳</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/omoide-yokocho" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">21:00</div><div class="timeline-dot"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">新宿黃金街 Golden Gai</div></div><span class="tag tag-sight">景點</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/golden-gai-shinjuku" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="day-2" class="day-content">
+    <div class="day-header"><h2>Day 2 ・ 箱根・慢活日 🌿</h2><p>📍 箱根湯本 ｜ 🏨 吉池旅館</p></div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">09:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">新宿買箱根 Free Pass</div></div><span class="tag tag-transport">交通</span></div>
+            <div class="card-meta"><div class="meta-row"><span class="icon">💴</span><span>¥7,100+浪漫號¥1,200/人</span></div></div>
+            <div class="btn-row"><a class="btn-reserve" href="https://www.klook.com/zh-TW/activity/3733-hakone-free-pass/" target="_blank">🎟 KLOOK購買</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">10:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content"><div class="transport-card"><div class="icon">🚃</div><div class="info"><strong>小田急浪漫號</strong><br><span>新宿→箱根湯本・約80分</span></div><div class="cost">Free Pass</div></div></div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">11:30</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">箱根湯本老街漫步</div></div><span class="tag tag-sight">景點</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/hakone-yumoto-st" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">14:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">吉池旅館 Check-in</div></div><span class="tag tag-hotel">住宿</span></div>
+            <div class="card-meta"><div class="meta-row"><span class="icon">💴</span><span>房A¥115,000・房B¥92,400</span></div></div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/yoshiike-ryokan-hakone" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">19:30</div><div class="timeline-dot"></div></div>
+        <div class="timeline-content"><div class="card"><div class="card-body"><div class="card-top"><div><div class="card-title">晚餐：湯本燒鳥居酒屋</div></div><span class="tag tag-food">餐廳</span></div></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="day-3" class="day-content">
+    <div class="day-header"><h2>Day 3 ・ 箱根大迴圈 🏔️</h2><p>📍 大涌谷・蘆之湖・箱根神社</p></div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">09:30</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content"><div class="transport-card"><div class="icon">🚞</div><div class="info"><strong>登山鐵道→強羅站→纜車→早雲山站→繩道</strong></div><div class="cost">Free Pass</div></div></div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">10:30</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">大涌谷 Owakudani</div></div><span class="tag tag-sight">景點</span></div>
+            <div class="card-desc">火山地熱區，沿徒步道近距離感受火山口</div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/owakudani-hakone" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">12:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">大涌谷車站食堂</div><div class="card-title-jp">特製咖哩＋黑雞蛋</div></div><span class="tag tag-food">餐廳</span></div>
+            <div class="card-meta"><div class="meta-row"><span class="icon">💴</span><span>咖哩約¥1,200・黑雞蛋4個¥500</span></div></div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/owakudani-station-restaurant" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">13:30</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content"><div class="transport-card"><div class="icon">🚡</div><div class="info"><strong>大涌谷→桃源台站</strong></div><div class="cost">Free Pass</div></div></div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">14:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">箱根海賊船・蘆之湖</div><div class="card-title-jp">元箱根下船</div></div><span class="tag tag-sight">景點</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/hakone-sightseeing-cruise" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">15:30</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">箱根神社・湖中鳥居</div></div><span class="tag tag-sight">景點</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/hakone-shrine" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">16:30</div><div class="timeline-dot"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">甘酒茶屋 Amazake Chaya</div></div><span class="tag tag-food">餐廳</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/amazake-chaya-hakone" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="day-4" class="day-content">
+    <div class="day-header"><h2>Day 4 ・ 箱根精華→東京 🏙️</h2><p>📍 雕刻之森・上野 ｜ 🏨 Paul House</p></div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">08:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">花車 Hanaguruma 早餐</div></div><span class="tag tag-food">早餐</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJB_K12gujGWARZErWb5aVOMs" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">10:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">箱根雕刻之森美術館</div></div><span class="tag tag-sight">景點</span></div>
+            <div class="card-meta"><div class="meta-row"><span class="icon">💴</span><span>¥1,800</span></div></div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/hakone-open-air-museum" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">13:30</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content"><div class="transport-card"><div class="icon">🚃</div><div class="info"><strong>浪漫號回新宿→JR上野</strong></div><div class="cost">Free Pass</div></div></div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">16:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">Paul House Check-in</div></div><span class="tag tag-hotel">住宿</span></div>
+            <div class="card-meta"><div class="meta-row"><span class="icon">💴</span><span>¥259,000（6晚）</span></div></div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/paul-house-ueno" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">19:00</div><div class="timeline-dot"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">TORI bien 燒鳥</div></div><span class="tag tag-food">餐廳</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/tori-bien-asakusa" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="day-5" class="day-content">
+    <div class="day-header"><h2>Day 5 ・ 淺草・藏前・文化日 🏯</h2><p>📍 淺草寺・水豚咖啡廳 ｜ 🏨 Paul House</p></div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">09:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">淺草寺 Senso-ji</div></div><span class="tag tag-sight">景點</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/sensoji-asakusa" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">10:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">仲見世通 Nakamise</div></div><span class="tag tag-sight">景點</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/nakamise-asakusa" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">11:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">淺草茶屋 たばねのしの原</div></div><span class="tag tag-food">餐廳</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/asakusa-chaya-tabanenoshi" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">12:30</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">Tonkatsu Hinata</div></div><span class="tag tag-food">餐廳</span></div>
+            <div class="card-tip">💡 週日週一公休，1/23週六可去</div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/tonkatsu-hinata-tokyo" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">13:30</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">Kakimori 蔵前</div><div class="card-title-jp">客製化筆記本</div></div><span class="tag tag-sight">選物</span></div>
+            <div class="card-meta"><div class="meta-row"><span class="icon">📍</span><span>台東区三筋1-6-2</span></div><div class="meta-row"><span class="icon">🕐</span><span>週一休</span></div></div>
+            <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJYzGkb7eOGGARNSIHlHC_mbY" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">14:30</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">SyuRo</div><div class="card-title-jp">生活選物</div></div><span class="tag tag-sight">選物</span></div>
+            <div class="card-meta"><div class="meta-row"><span class="icon">📍</span><span>台東区鳥越1-16-5</span></div><div class="meta-row"><span class="icon">🕐</span><span>週四休</span></div></div>
+            <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJ2dzVprqOGGARjGMuMc-WiQs" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">15:30</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">cafe capyba ASAKUSA</div><div class="card-title-jp">水豚咖啡廳</div></div><span class="tag tag-sight">體驗</span></div>
+            <div class="card-meta"><div class="meta-row"><span class="icon">🕐</span><span>週三四公休</span></div></div>
+            <div class="card-tip">💡 需2週前官網預約</div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/cafe-capyba-asakusa" target="_blank">📍 導航</a><a class="btn-reserve" href="https://cspace.co.jp/en/reservation_english/" target="_blank">🎟 預約</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">17:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">Tamitu</div></div><span class="tag tag-food">餐廳</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/tamitu-omotesando" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">18:30</div><div class="timeline-dot"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">Harenoichi 燒鳥</div></div><span class="tag tag-food">餐廳</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/harenoichi-nishiasakusa" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="day-6" class="day-content">
+    <div class="day-header"><h2>Day 6 ・ 澀谷・原宿・南青山 🌿</h2><p>📍 明治神宮・澀谷Sky ｜ 🏨 Paul House</p></div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">10:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">明治神宮</div></div><span class="tag tag-sight">景點</span></div>
+            <div class="card-tip">💡 可在境內御守授與所買開運木鈴「こだま」</div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/meiji-jingu-tokyo" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">12:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">竹下通・表參道</div></div><span class="tag tag-sight">景點</span></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">13:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">Spiral スパイラル</div></div><span class="tag tag-sight">選物</span></div>
+            <div class="card-meta"><div class="meta-row"><span class="icon">📍</span><span>港区南青山5-6-23</span></div></div>
+            <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJg7mFCGCLGGARoVBhjBAe5kQ" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">14:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">AMAM DACOTAN</div></div><span class="tag tag-food">餐廳</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJpU7u3zqNGGARIrqMMrD1XAY" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">15:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">I'm donut?</div></div><span class="tag tag-food">餐廳</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJw2xQCQCLGGARCrerOR6oRoU" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">15:45</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">GYRE + CIBONE</div></div><span class="tag tag-sight">選物</span></div>
+            <div class="card-desc">B1F有Tamitu蜂蜜咖啡館</div>
+            <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJuXF5-qOMGGARIrnf_yRlzOQ" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">16:30</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">SHIBUYA SKY</div></div><span class="tag tag-sight">景點</span></div>
+            <div class="card-tip">💡 ⚠️ 最早訂票日12/27 00:00 JST</div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/shibuya-sky" target="_blank">📍 導航</a><a class="btn-reserve" href="https://www.shibuya-scramble-square.com/sky/" target="_blank">🎟 預約</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">19:30</div><div class="timeline-dot"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">Yakitori Haretsubame 新宿</div></div><span class="tag tag-food">餐廳</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/haretsubame-shinjuku" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="day-7" class="day-content">
+    <div class="day-header"><h2>Day 7 ・ teamLab Planets・秋葉原 🌊🎮</h2><p>📍 豐洲・秋葉原 ｜ 🏨 Paul House</p></div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">09:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">teamLab Planets TOKYO</div></div><span class="tag tag-sight">體驗</span></div>
+            <div class="card-tip">💡 ⚠️ 最早訂票日1/11開放</div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/teamlab-planets-toyosu" target="_blank">📍 導航</a><a class="btn-reserve" href="https://www.teamlab.art/e/planets/" target="_blank">🎟 官網購票</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">13:30</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">秋葉原電器街</div></div><span class="tag tag-sight">景點</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/akihabara-tokyo" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">19:00</div><div class="timeline-dot"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">Hinomaru 燒肉</div></div><span class="tag tag-food">餐廳</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/hinomaru-shinjuku-bbq" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="day-8" class="day-content">
+    <div class="day-header"><h2>Day 8 ・ 新宿・自由探索 🌃</h2><p>📍 新宿御苑・都廳光影秀</p></div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">10:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">新宿御苑</div></div><span class="tag tag-sight">景點</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/shinjuku-gyoen" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">19:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">YAKINIKU WASHINO 新宿</div></div><span class="tag tag-food">餐廳</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/washino-shinjuku-yakiniku" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">21:00</div><div class="timeline-dot"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">東京都廳 光影秀</div></div><span class="tag tag-sight">景點</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/tokyo-night-light-shinjuku" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="day-9" class="day-content">
+    <div class="day-header"><h2>Day 9 ・ 三囲神社・購物・告別晚宴 🛍️</h2><p>📍 阿美橫丁・日本橋・新宿</p></div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">10:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">阿美橫丁 Ameyoko</div></div><span class="tag tag-sight">景點</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/ameyoko-ueno-tokyo" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">11:30</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">三囲神社（日本橋三越屋頂）</div></div><span class="tag tag-sight">景點</span></div>
+            <div class="card-meta"><div class="meta-row"><span class="icon">📍</span><span>中央区日本橋室町1-4-1 三越本店屋上</span></div></div>
+            <div class="card-desc">三井家守護神，可順道買丸久小山園抹茶粉</div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/nihonbashi-mitsukoshi-rooftop" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">12:15</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">Tonkatsu Hajime 一</div><div class="card-title-jp">日本橋炸豬排</div></div><span class="tag tag-food">餐廳</span></div>
+            <div class="rating">★★★★☆ 4.2</div>
+            <div class="card-meta"><div class="meta-row"><span class="icon">📍</span><span>中央区日本橋室町1-13-9</span></div><div class="meta-row"><span class="icon">🕐</span><span>週一公休</span></div><div class="meta-row"><span class="icon">📞</span><span>+81 3-6262-5883</span></div></div>
+            <div class="card-desc">網路瘋傳隱藏版清單第一名！熟成四元豚、國產銘柄豚</div>
+            <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJOcQLajqJGGARmBOurpdKPFs" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">19:00</div><div class="timeline-dot"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">牛カツ Gyukatsu Motomura</div></div><span class="tag tag-food">餐廳</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://maps.app.goo.gl/gyukatsu-motomura-shinjuku" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="day-10" class="day-content">
+    <div class="day-header"><h2>Day 10 ・ 返台 ✈️</h2><p>📍 羽田機場 → 台北松山</p></div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">05:30</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">計程車 → 羽田機場</div></div><span class="tag tag-transport">交通</span></div>
+            <div class="btn-row"><a class="btn-reserve" href="https://go.mo-t.com/" target="_blank">🚕 GO App</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">08:40</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content"><div class="transport-card"><div class="icon">✈️</div><div class="info"><strong>JL 97 日本航空</strong><br><span>HND→TSA・4小時</span></div></div></div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">11:40</div><div class="timeline-dot"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">抵達台北松山機場 🎉</div></div><span class="tag tag-transport">抵達</span></div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="day-11" class="day-content">
+    <div class="day-header"><h2>備選日 ・ 川越一日遊 🎏</h2><p>📍 小江戶老街 ｜ 可與Day 8對調</p></div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">09:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content"><div class="transport-card"><div class="icon">🚃</div><div class="info"><strong>新宿→本川越</strong><br><span>西武新宿線・約60分</span></div></div></div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">10:15</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">熊野神社</div></div><span class="tag tag-sight">景點</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/search/?api=1&query=川越熊野神社" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">11:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">冰川神社</div></div><span class="tag tag-sight">景點</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/search/?api=1&query=川越氷川神社" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">12:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">午餐：鰻魚飯（小川菊 or 林屋）</div></div><span class="tag tag-food">餐廳</span></div>
+            <div class="card-tip">💡 排隊地獄！建議開店前到</div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">13:30</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">大正浪漫夢通</div></div><span class="tag tag-sight">景點</span></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">14:15</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">藏造老街・時之鐘</div></div><span class="tag tag-sight">景點</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/search/?api=1&query=川越時の鐘" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">15:30</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">星巴克 川越時鐘小路店</div></div><span class="tag tag-food">餐廳</span></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">16:15</div><div class="timeline-dot"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">菓子屋橫丁</div></div><span class="tag tag-food">餐廳</span></div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="day-12" class="day-content">
+    <div class="day-header"><h2>備選日 ・ 鎌倉一日遊 ⛩️</h2><p>📍 古都寺廟＋湘南海岸 ｜ 可與Day 8對調</p></div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">08:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content"><div class="transport-card"><div class="icon">🚃</div><div class="info"><strong>新宿→鎌倉</strong><br><span>JR湘南新宿線・約1小時</span></div></div></div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">09:30</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">鶴岡八幡宮</div></div><span class="tag tag-sight">景點</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/search/?api=1&query=鶴岡八幡宮" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">11:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">小町通商店街</div></div><span class="tag tag-food">餐廳</span></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">13:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">長谷寺</div></div><span class="tag tag-sight">景點</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/search/?api=1&query=長谷寺+鎌倉" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">14:30</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">鎌倉大佛（高德院）</div></div><span class="tag tag-sight">景點</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/search/?api=1&query=高德院+鎌倉大佛" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">16:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">鎌倉高校前平交道</div></div><span class="tag tag-sight">景點</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/search/?api=1&query=鎌倉高校前" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-left"><div class="timeline-time">17:30</div><div class="timeline-dot"></div></div>
+        <div class="timeline-content">
+          <div class="card"><div class="card-body">
+            <div class="card-top"><div><div class="card-title">江之島夕陽</div></div><span class="tag tag-sight">景點</span></div>
+            <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/search/?api=1&query=江之島" target="_blank">📍 導航</a></div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end page-itinerary -->
+
+<div id="page-hotel" class="page">
+  <p class="section-title">住宿總覽</p>
+  <div class="hotel-card">
+    <span class="confirm-badge">✅ 已確認</span>
+    <h3>🏨 APA Hotel 新宿歌舞伎町塔</h3>
+    <p class="dates">📅 Jan 19 → Jan 20（1晚）</p>
+    <div class="hotel-detail">📍 新宿区歌舞伎町2-31-12</div>
+    <div class="hotel-detail">💴 ¥28,764</div>
+    <div class="hotel-detail">🔖 確認號：6646880906・PIN: 1628</div>
+    <div class="btn-row" style="margin-top:10px"><a class="btn-map" href="https://maps.app.goo.gl/APA-Shinjuku" target="_blank">📍 導航</a></div>
+  </div>
+  <div class="hotel-card">
+    <span class="confirm-badge">✅ 已確認</span>
+    <h3>♨️ 吉池旅館 Yoshiike Ryokan</h3>
+    <p class="dates">📅 Jan 20 → Jan 22（2晚）</p>
+    <div class="hotel-detail">📍 神奈川県足柄下郡箱根町湯本597</div>
+    <div class="hotel-detail">🛏 房A（Chen&Brian）：¥115,000</div>
+    <div class="hotel-detail">🛏 房B（Su&YaPing）：¥92,400</div>
+    <div class="hotel-detail">📞 +81 460-85-5711</div>
+    <div class="btn-row" style="margin-top:10px"><a class="btn-map" href="https://maps.app.goo.gl/yoshiike-ryokan-hakone" target="_blank">📍 導航</a></div>
+  </div>
+  <div class="hotel-card">
+    <span class="confirm-badge">✅ 已確認</span>
+    <h3>🏠 Paul House</h3>
+    <p class="dates">📅 Jan 22 → Jan 28（6晚）</p>
+    <div class="hotel-detail">📍 台東区東上野1-19-8</div>
+    <div class="hotel-detail">💴 ¥259,000（6晚）</div>
+    <div class="hotel-detail">📞 03-5846-8809</div>
+    <div class="btn-row" style="margin-top:10px"><a class="btn-map" href="https://maps.app.goo.gl/paul-house-ueno" target="_blank">📍 導航</a></div>
+  </div>
+</div>
+
+<div id="page-transport" class="page">
+  <p class="section-title">✈️ 航班資訊</p>
+  <div class="hotel-card">
+    <span class="confirm-badge">✅ 已確認</span>
+    <h3>🛫 去程 JX 800 星宇航空</h3>
+    <p class="dates">📅 2027年1月19日</p>
+    <div class="hotel-detail">🛫 TPE 08:25 → 🛬 NRT 12:35</div>
+    <div class="hotel-detail">✈️ Airbus A350-1000</div>
+    <div class="hotel-detail">🔖 確認碼：BZ5WVQ</div>
+  </div>
+  <div class="hotel-card">
+    <span class="confirm-badge">✅ 已確認</span>
+    <h3>🛬 回程 JL 97 日本航空</h3>
+    <p class="dates">📅 2027年1月28日</p>
+    <div class="hotel-detail">🛫 HND 08:40 → 🛬 TSA 11:40</div>
+    <div style="margin-top:10px;padding:10px 0;border-top:1px solid var(--border)">
+      <div class="hotel-detail">19A Chen Nu C.・19C Brian M.・19D Su C.・19E Ya Ping Z.</div>
+    </div>
+  </div>
+  <p class="section-title">🃏 交通票券</p>
+  <div class="info-card"><h3>Suica</h3><p>每人充值¥5,000–8,000夠用整趟。押金¥500可退。</p></div>
+  <div class="info-card"><h3>🎟 箱根Free Pass</h3><p>¥7,100/人+浪漫號¥1,200/人。</p></div>
+  <p class="section-title">🚐 備用交通</p>
+  <div class="info-card">
+    <h3>Japan Tours - Car & Bus</h3>
+    <p>山田研真・機場接送/包車服務<br>📞 +81 80-1382-8209<br>✉️ fujijapantour@gmail.com</p>
+  </div>
+</div>
+<div id="page-foodbank" class="page">
+
+  <p class="section-title">🍣 Omakase・高級選項庫</p>
+
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">鮨けんすけ Sushi Kensuke</div><div class="card-title-jp">Omakase・麻布十番</div></div><span class="tag tag-food">壽司</span></div>
+    <div class="card-meta"><div class="meta-row"><span class="icon">📍</span><span>港区麻布十番1-11-11 7F</span></div><div class="meta-row"><span class="icon">💴</span><span>¥29,000/人</span></div><div class="meta-row"><span class="icon">📞</span><span>03-6426-5791</span></div></div>
+    <div class="card-desc">招牌「50刀大トロ」，油脂纖維融合入口即化</div>
+    <div class="card-tip">💡 目前還好訂，建議盡早訂位。📅 建議Day 8晚上</div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/search/?api=1&query=鮨けんすけ+麻布十番" target="_blank">📍 導航</a></div>
+  </div></div>
+
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">たきや Takiya</div><div class="card-title-jp">天婦羅・麻布十番</div></div><span class="tag tag-food">天婦羅</span></div>
+    <div class="rating">★★★★★ 4.50・Tabelog2026金牌</div>
+    <div class="card-meta"><div class="meta-row"><span class="icon">📍</span><span>港区麻布十番2-8-6 2F</span></div><div class="meta-row"><span class="icon">💴</span><span>¥34,000-53,000/人</span></div><div class="meta-row"><span class="icon">📞</span><span>+81 3-6804-1732</span></div></div>
+    <div class="card-desc">超難訂天婦羅名店，招牌和牛紫蘇捲、豬起司天婦羅</div>
+    <div class="card-tip">💡 ⚠️ 需提前數月訂位。📅 可與Day 8對調，跟Sushi Kensuke同區</div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/search/?api=1&query=たきや+麻布十番" target="_blank">📍 導航</a></div>
+  </div></div>
+
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">銀座 Ibuki</div><div class="card-title-jp">懷石料理</div></div><span class="tag tag-food">懷石</span></div>
+    <div class="rating">★★★★★ 4.7</div>
+    <div class="card-meta"><div class="meta-row"><span class="icon">📍</span><span>中央区銀座2-14-6 B1F</span></div><div class="meta-row"><span class="icon">💴</span><span>午間約¥9,000/人</span></div><div class="meta-row"><span class="icon">📞</span><span>+81 50-3188-0660</span></div></div>
+    <div class="card-desc">蟹肉丸子湯、鯖魚釜飯，翻譯機協助溝通無語言隔閡</div>
+    <div class="card-tip">💡 午餐比晚餐划算。📅 建議Day 9替換壽司初夢午餐</div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/search/?api=1&query=銀座+Ibuki" target="_blank">📍 導航</a></div>
+  </div></div>
+
+  <p class="section-title">🥩 燒肉選項庫（10間）</p>
+
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">1. 燒肉ライク</div></div><span class="tag tag-food">燒肉</span></div>
+    <div class="card-meta"><div class="meta-row"><span class="icon">📍</span><span>新宿区歌舞伎町1-16-2</span></div><div class="meta-row"><span class="icon">🕐</span><span>24小時</span></div></div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJL1YkC4GNGGARNqr8b77tRoA" target="_blank">📍 導航</a></div>
+  </div></div>
+
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">2. 牛角 Gyu-Kaku</div></div><span class="tag tag-food">燒肉</span></div>
+    <div class="card-meta"><div class="meta-row"><span class="icon">📍</span><span>新宿区西新宿7-10-18</span></div></div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJ_1u5RkyNGGARJ_GGDke9CqI" target="_blank">📍 導航</a></div>
+  </div></div>
+
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">3. 燒肉トラジ</div></div><span class="tag tag-food">燒肉</span></div>
+    <div class="card-meta"><div class="meta-row"><span class="icon">📍</span><span>中央区京橋3-1-1 2F</span></div></div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJsSBtUvmLGGARR6Leye3_DiU" target="_blank">📍 導航</a></div>
+  </div></div>
+
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">4. 俺の焼肉 銀座</div></div><span class="tag tag-food">燒肉</span></div>
+    <div class="card-meta"><div class="meta-row"><span class="icon">📍</span><span>中央区銀座4-10-10</span></div></div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJoSAqKeeLGGARVzB_gTDUDCQ" target="_blank">📍 導航</a></div>
+  </div></div>
+
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">5. 六歌仙 Rokkasen</div></div><span class="tag tag-food">燒肉</span></div>
+    <div class="rating">★★★★★ 4.6</div>
+    <div class="card-meta"><div class="meta-row"><span class="icon">📍</span><span>新宿区西新宿1-10-2 10F</span></div></div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJeQiJANeMGGAR8zaGpVXXXz4" target="_blank">📍 導航</a></div>
+  </div></div>
+
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">6. 叙々苑 Jojoen</div></div><span class="tag tag-food">燒肉</span></div>
+    <div class="card-meta"><div class="meta-row"><span class="icon">📍</span><span>新宿区高田馬場3-12-5</span></div></div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJO3r2hTeNGGAR65KmsMRUpFY" target="_blank">📍 導航</a></div>
+  </div></div>
+
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">7. 燒肉ジャンボ</div></div><span class="tag tag-food">燒肉</span></div>
+    <div class="card-meta"><div class="meta-row"><span class="icon">📍</span><span>港区白金3-1-1</span></div></div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJQYuIzQmLGGARAFZdM-5e7-s" target="_blank">📍 導航</a></div>
+  </div></div>
+
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">8. よろにく Yoroniku</div></div><span class="tag tag-food">燒肉</span></div>
+    <div class="card-meta"><div class="meta-row"><span class="icon">📍</span><span>港区南青山6-6-22 B1</span></div></div>
+    <div class="card-tip">💡 ⚠️ 非常難訂，2個月前訂位</div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJVVUlOmSLGGARGqkXwDpR7PI" target="_blank">📍 導航</a></div>
+  </div></div>
+
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">9. スタミナ苑</div></div><span class="tag tag-food">燒肉</span></div>
+    <div class="card-meta"><div class="meta-row"><span class="icon">📍</span><span>足立区鹿浜3-13-4</span></div></div>
+    <div class="card-tip">💡 ⚠️ 不接受訂位，需排隊</div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJAQndiUeSGGAR-6DRWxrNuDY" target="_blank">📍 導航</a></div>
+  </div></div>
+
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">10. 房家 Bouya</div></div><span class="tag tag-food">燒肉</span></div>
+    <div class="rating">★★★★★ 4.6</div>
+    <div class="card-meta"><div class="meta-row"><span class="icon">📍</span><span>中央区日本橋室町2-2-1</span></div></div>
+    <div class="card-tip">💡 三囲神社步行3分即到</div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJeR7Qo1WJGGAReBe29sbV76Q" target="_blank">📍 導航</a></div>
+  </div></div>
+
+  <p class="section-title">🍲 壽喜燒選項庫（6間）</p>
+
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">1. 人形町今半</div></div><span class="tag tag-food">壽喜燒</span></div>
+    <div class="card-tip">💡 ⚠️ 超難訂，週三公休</div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJLy_B0U-JGGARz9GeTk7MajA" target="_blank">📍 導航</a></div>
+  </div></div>
+
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">2. 浅草今半</div></div><span class="tag tag-food">壽喜燒</span></div>
+    <div class="card-meta"><div class="meta-row"><span class="icon">🗺</span><span>Paul House步行15分</span></div></div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJ99yU6b-OGGAR2NfOuMg0JUA" target="_blank">📍 導航</a></div>
+  </div></div>
+
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">3. 北斗 Hokuto</div></div><span class="tag tag-food">壽喜燒</span></div>
+    <div class="rating">★★★★★ 4.6</div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJm4KcGwCNGGAREKxO32jVTRo" target="_blank">📍 導航</a></div>
+  </div></div>
+
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">4. 吉澤 Yoshizawa</div></div><span class="tag tag-food">壽喜燒</span></div>
+    <div class="card-tip">💡 午餐¥2,990超值</div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJSwkySuGLGGAR7d8pgQ6CbrU" target="_blank">📍 導航</a></div>
+  </div></div>
+
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">5. 壽喜燒一理</div></div><span class="tag tag-food">壽喜燒</span></div>
+    <div class="rating">★★★★★ 4.6</div>
+    <div class="card-tip">💡 CP值最高，三囲神社步行3分</div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJAUwcTQCJGGARrSvZyY9kRtU" target="_blank">📍 導航</a></div>
+  </div></div>
+
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">6. 和牛壽喜燒 極</div></div><span class="tag tag-food">壽喜燒</span></div>
+    <div class="rating">★★★★★ 4.9</div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJZdO0XQCNGGARDxZ_HzL1D8I" target="_blank">📍 導航</a></div>
+  </div></div>
+
+  <p class="section-title">🍚 早餐選項庫（東京）</p>
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">彌生軒 東上野店</div></div><span class="tag tag-food">早餐</span></div>
+    <div class="card-meta"><div class="meta-row"><span class="icon">🗺</span><span>Paul House步行10分</span></div></div>
+    <div class="btn-row"><a class="btn-map" href="https://maps.google.com/?q=彌生軒+東上野店" target="_blank">📍 導航</a></div>
+  </div></div>
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">喫茶店 友路有 淺草店</div></div><span class="tag tag-food">早餐</span></div>
+    <div class="card-meta"><div class="meta-row"><span class="icon">🕐</span><span>6:30–20:00</span></div></div>
+    <div class="btn-row"><a class="btn-map" href="https://maps.google.com/?q=喫茶店+友路有+浅草店" target="_blank">📍 導航</a></div>
+  </div></div>
+
+  <p class="section-title">☕ 咖啡收藏庫</p>
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">豆虎 富ヶ谷焙煎所</div></div><span class="tag tag-food">咖啡</span></div>
+    <div class="rating">★★★★★ 4.7</div>
+    <div class="card-tip">💡 靠近代代木公園，Day 6明治神宮後可順路</div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJ-ygvQd2NGGARLLqVcwgIEA0" target="_blank">📍 導航</a></div>
+  </div></div>
+
+  <p class="section-title">🍜 箱根湯本 早午晚餐選項庫</p>
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">花車 Hanaguruma</div></div><span class="tag tag-food">早餐</span></div>
+    <div class="rating">★★★★☆ 4.3</div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJB_K12gujGWARZErWb5aVOMs" target="_blank">📍 導航</a></div>
+  </div></div>
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">Hakone Kamameshi Soba</div></div><span class="tag tag-food">午餐</span></div>
+    <div class="rating">★★★★☆ 4.2</div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJL1mhOnWjGWARNrwQ_d3r9aU" target="_blank">📍 導航</a></div>
+  </div></div>
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">Hakone Akatsukian</div></div><span class="tag tag-food">午餐</span></div>
+    <div class="rating">★★★★☆ 4.1</div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJz7OdlAijGWARHPYEGL26bFI" target="_blank">📍 導航</a></div>
+  </div></div>
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">Niku no Kinosuke</div></div><span class="tag tag-food">午餐</span></div>
+    <div class="rating">★★★★★ 4.8</div>
+    <div class="card-tip">💡 排隊名店，11:30前到</div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJCbd34bSjGWAR22SmiUdhVCw" target="_blank">📍 導航</a></div>
+  </div></div>
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">そばうどん一品料理 恵</div></div><span class="tag tag-food">晚餐</span></div>
+    <div class="rating">★★★★★ 4.8</div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJVYYrCwCjGWARq3p0-H7WFKI" target="_blank">📍 導航</a></div>
+  </div></div>
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">Daichan</div></div><span class="tag tag-food">晚餐</span></div>
+    <div class="rating">★★★★★ 4.8</div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJ6dth1HajGWARi0hQeP5wjY8" target="_blank">📍 導航</a></div>
+  </div></div>
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">Karuta</div></div><span class="tag tag-food">晚餐</span></div>
+    <div class="rating">★★★★★ 4.5</div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJmemshwujGWARKHg_uFhFcRU" target="_blank">📍 導航</a></div>
+  </div></div>
+  <div class="card" style="margin-bottom:12px"><div class="card-body">
+    <div class="card-top"><div><div class="card-title">Kinosuke</div></div><span class="tag tag-food">晚餐</span></div>
+    <div class="rating">★★★★☆ 4.3</div>
+    <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJE8bBLXWjGWARiog-MPwNQgA" target="_blank">📍 導航</a></div>
+  </div></div>
+
+</div>
+
+<div id="page-budget" class="page">
+  <p class="section-title">住宿費用</p>
+  <div class="budget-card">
+    <div class="budget-row"><span class="label">APA Hotel</span><span class="amount">¥28,764</span></div>
+    <div class="budget-row"><span class="label">吉池旅館 A房</span><span class="amount">¥115,000</span></div>
+    <div class="budget-row"><span class="label">吉池旅館 B房</span><span class="amount">¥92,400</span></div>
+    <div class="budget-row"><span class="label">Paul House</span><span class="amount">¥259,000</span></div>
+    <div class="budget-row"><span>住宿合計</span><span class="amount">¥495,164</span></div>
+  </div>
+  <p class="section-title">每人預估花費</p>
+  <div class="budget-card">
+    <div class="budget-row"><span class="label">箱根Free Pass</span><span class="amount">¥8,300</span></div>
+    <div class="budget-row"><span class="label">利木津巴士</span><span class="amount">¥2,800</span></div>
+    <div class="budget-row"><span class="label">Suica充值</span><span class="amount">¥8,000</span></div>
+    <div class="budget-row"><span class="label">teamLab+Shibuya Sky</span><span class="amount">¥7,500</span></div>
+    <div class="budget-row"><span class="label">餐飲（10天）</span><span class="amount">¥70,000</span></div>
+    <div class="budget-row"><span>每人預估合計</span><span class="amount">¥96,600</span></div>
+  </div>
+</div>
+
+<div id="page-luggage" class="page">
+  <p class="section-title">🎟 必買票清單</p>
+  <div class="info-card" style="margin-bottom:14px">
+    <ul class="checklist">
+      <li><input type="checkbox" id="t1"><label for="t1">🌆 Shibuya Sky ⏰12/27 00:00搶票</label></li>
+      <li><input type="checkbox" id="t2"><label for="t2">🌊 teamLab Planets ⏰1/11開放</label></li>
+      <li><input type="checkbox" id="t3"><label for="t3">🦫 cafe capyba ⏰1/9開放</label></li>
+      <li><input type="checkbox" id="t4"><label for="t4">🚌 利木津巴士</label></li>
+      <li><input type="checkbox" id="t5"><label for="t5">🎟 箱根Free Pass</label></li>
+      <li><input type="checkbox" id="t6"><label for="t6">🍣 Sushi Kensuke訂位</label></li>
+      <li><input type="checkbox" id="t7"><label for="t7">🍤 たきや訂位（超難訂）</label></li>
+    </ul>
+  </div>
+
+  <p class="section-title">🛍️ 購物清單</p>
+  <div class="info-card" style="margin-bottom:14px">
+    <ul class="checklist">
+      <li><input type="checkbox" id="s1"><label for="s1">💊 HBCコラーゲン・¥7,560・大國藥妝</label></li>
+      <li><input type="checkbox" id="s2"><label for="s2">🧴 無印良品デコルテミルク・¥2,490</label></li>
+      <li><input type="checkbox" id="s3"><label for="s3">🍵 丸久小山園抹茶粉・日本橋三越</label></li>
+      <li><input type="checkbox" id="s4"><label for="s4">🔔 明治神宮開運木鈴「こだま」・Day6購買</label></li>
+    </ul>
+  </div>
+
+  <p class="section-title">📋 行前準備清單</p>
+  <div class="info-card" style="margin-bottom:14px">
+    <h3>🪪 證件與金融</h3>
+    <ul class="checklist">
+      <li><input type="checkbox" id="c1"><label for="c1">護照（6個月以上效期）</label></li>
+      <li><input type="checkbox" id="c2"><label for="c2">Visit Japan Web登記</label></li>
+      <li><input type="checkbox" id="c3"><label for="c3">日幣現金¥30,000-50,000</label></li>
+      <li><input type="checkbox" id="c4"><label for="c4">海外旅遊保險</label></li>
+      <li><input type="checkbox" id="c5"><label for="c5">行動電源限2個160Wh以下</label></li>
+    </ul>
+  </div>
+  <div class="info-card" style="margin-bottom:14px">
+    <h3>👗 衣物</h3>
+    <ul class="checklist">
+      <li><input type="checkbox" id="e1"><label for="e1">保暖外套</label></li>
+      <li><input type="checkbox" id="e2"><label for="e2">毛帽圍巾手套</label></li>
+      <li><input type="checkbox" id="e3"><label for="e3">舒適步行鞋</label></li>
+    </ul>
+  </div>
+</div>
+
+<div id="page-info" class="page">
+  <div class="info-card"><h3>📶 網路</h3><p>eSIM出發前設定最方便</p></div>
+  <div class="info-card"><h3>💴 換匯</h3><p>7-Eleven ATM可用台灣金融卡提款</p></div>
+  <div class="info-card"><h3>🚨 緊急聯絡</h3><p>警察110・救護119・台灣駐日代表處+81-3-3280-7811</p></div>
+  <div class="info-card"><h3>🌡 1月天氣</h3><p>東京5–10°C，箱根2–8°C可能下雪</p></div>
+</div>
+
+<div class="bottom-nav">
+  <div class="nav-item active" onclick="switchTab('itinerary', this)"><span class="nav-icon">📅</span><span class="nav-label">行程</span></div>
+  <div class="nav-item" onclick="switchTab('hotel', this)"><span class="nav-icon">🏨</span><span class="nav-label">住宿</span></div>
+  <div class="nav-item" onclick="switchTab('transport', this)"><span class="nav-icon">🚇</span><span class="nav-label">交通</span></div>
+  <div class="nav-item" onclick="switchTab('foodbank', this)"><span class="nav-icon">🍽️</span><span class="nav-label">食庫</span></div>
+  <div class="nav-item" onclick="switchTab('budget', this)"><span class="nav-icon">💰</span><span class="nav-label">預算</span></div>
+  <div class="nav-item" onclick="switchTab('luggage', this)"><span class="nav-icon">🧳</span><span class="nav-label">行李</span></div>
+  <div class="nav-item" onclick="switchTab('info', this)"><span class="nav-icon">ℹ️</span><span class="nav-label">資訊</span></div>
+</div>
+
+<script>
+function switchTab(tab, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + tab).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  const idx = ['itinerary','hotel','transport','foodbank','budget','luggage','info'].indexOf(tab);
+  document.querySelectorAll('.tab-btn')[idx].classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if (el) el.classList.add('active');
+  else document.querySelectorAll('.nav-item')[idx].classList.add('active');
+  window.scrollTo(0, 0);
+}
+function switchDay(num, el) {
+  document.querySelectorAll('.day-content').forEach(d => d.classList.remove('active'));
+  document.getElementById('day-' + num).classList.add('active');
+  document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  window.scrollTo(0, 0);
+}
+document.querySelectorAll('input[type=checkbox]').forEach(cb => {
+  const saved = localStorage.getItem(cb.id);
+  if (saved === 'true') cb.checked = true;
+  cb.addEventListener('change', () => localStorage.setItem(cb.id, cb.checked));
+});
+</script>
+
+</body>
+</html>
