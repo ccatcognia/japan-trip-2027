@@ -451,8 +451,9 @@
         <div class="timeline-left"><div class="timeline-time">11:00</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
         <div class="timeline-content">
           <div class="card"><div class="card-body">
-            <div class="card-top"><div><div class="card-title">淺草茶屋 たばねのしの原</div></div><span class="tag tag-food">餐廳</span></div><div class="card-tip">🚏 徒步約5分鐘</div>
-            <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/search/?api=1&query=asakusa-chaya-tabanenoshi" target="_blank">📍 導航</a></div>
+            <div class="card-top"><div><div class="card-title">淺草茶屋たばねのし</div></div><span class="tag tag-food">餐廳</span></div><div class="card-tip">🚏 徒步約5分鐘</div>
+            <div class="card-meta"><div class="meta-row"><span class="icon">📍</span><span>台東区浅草2-7-7</span></div></div>
+            <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps?cid=6061692597705025029" target="_blank">📍 導航</a></div>
           </div></div>
         </div>
       </div>
@@ -460,9 +461,10 @@
         <div class="timeline-left"><div class="timeline-time">12:30</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
         <div class="timeline-content">
           <div class="card"><div class="card-body">
-            <div class="card-top"><div><div class="card-title">Tonkatsu Hinata</div></div><span class="tag tag-food">餐廳</span></div><div class="card-tip">🚏 徒步約8分鐘</div>
-            <div class="card-tip">💡 週日週一公休，1/23週六可去</div>
-            <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/search/?api=1&query=tonkatsu-hinata-tokyo" target="_blank">📍 導航</a></div>
+            <div class="card-top"><div><div class="card-title">とんかつ すぎ田 Tonkatsu Sugita</div></div><span class="tag tag-food">餐廳</span></div><div class="card-tip">🚏 藏前站Ａ5出口徒步約3分鐘</div>
+            <div class="card-meta"><div class="meta-row"><span class="icon">📍</span><span>台東区寿3-8-3</span></div></div>
+            <div class="card-tip">💡 米其林必比登連續多年推薦，出發前請再次確認公休日</div>
+            <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/search/?api=1&query=とんかつすぎ田+台東区寿3-8-3" target="_blank">📍 導航</a></div>
           </div></div>
         </div>
       </div>
@@ -1105,9 +1107,9 @@ attachAddressCopyButtons(document);
 
 const DEFAULT_FOODBANK = { sections: [
   { title: "🍣 Omakase・高級選項庫", items: [
-    { name: "鮨けんすけ Sushi Kensuke", nameJp: "Omakase・麻布十番", tagText: "壽司", region: "麻布十番・南青山", priority: true, rating: "", meta: [{icon:"📍",text:"港区麻布十番1-11-11 7F"},{icon:"💴",text:"¥29,000/人"},{icon:"📞",text:"03-6426-5791"}], desc: "招牌「50刀大トロ」，油脂纖維融合入口即化", tips: ["💡 目前還好訂，建議盡早訂位。📅 建議Day 8晚上"], mapUrl: "https://www.google.com/maps/search/?api=1&query=鮨けんすけ+麻布十番" },
+    { name: "鮨けんすけ Sushi Kensuke", nameJp: "Omakase・麻布十番", tagText: "壽司", region: "麻布十番・南青山", priority: true, rating: "", meta: [{icon:"📍",text:"港区麻布十番1-11-11 7F"},{icon:"💴",text:"¥29,000/人"},{icon:"📞",text:"03-6426-5791"}], desc: "招牌「50刀大トロ」，油脂纖維融合入口即化", tips: ["💡 目前還好訂，建議盡早訂位。📅 建議Day 8晚上"], mapUrl: "https://www.google.com/maps/search/?api=1&query=鮨けんすけ+港区麻布十番1-11-11" },
     { name: "たきや Takiya", nameJp: "天婦羅・麻布十番", tagText: "天婦羅", region: "麻布十番・南青山", rating: "★★★★★ 4.50・Tabelog2026金牌", meta: [{icon:"📍",text:"港区麻布十番2-8-6 2F"},{icon:"💴",text:"¥34,000-53,000/人"},{icon:"📞",text:"+81 3-6804-1732"}], desc: "超難訂天婦羅名店，招牌和牛紫蘇捲、豬起司天婦羅", tips: ["💡 ⚠️ 需提前數月訂位。📅 可與Day 8對調，跟Sushi Kensuke同區"], mapUrl: "https://www.google.com/maps/search/?api=1&query=たきや+麻布十番" },
-    { name: "銀座 Ibuki", nameJp: "懷石料理", tagText: "懷石", region: "銀座・京橋・築地", rating: "★★★★★ 4.7", meta: [{icon:"📍",text:"中央区銀座2-14-6 B1F"},{icon:"💴",text:"午間約¥9,000/人"},{icon:"📞",text:"+81 50-3188-0660"}], desc: "蟹肉丸子湯、鯖魚釜飯，翻譯機協助溝通無語言隔閡", tips: ["💡 午餐比晚餐划算。📅 建議Day 9替換壽司初夢午餐"], mapUrl: "https://www.google.com/maps/search/?api=1&query=銀座+Ibuki" }
+    { name: "銀座 Ibuki", nameJp: "懷石料理", tagText: "懷石", region: "銀座・京橋・築地", rating: "★★★★★ 4.7", meta: [{icon:"📍",text:"中央区銀座2-14-6 B1F"},{icon:"💴",text:"午間約¥9,000/人"},{icon:"📞",text:"+81 50-3188-0660"}], desc: "蟹肉丸子湯、鯖魚釜飯，翻譯機協助溝通無語言隔閡", tips: ["💡 午餐比晚餐划算。📅 建議Day 9替換壽司初夢午餐"], mapUrl: "https://www.google.com/maps?cid=10697323330395431941" }
   ]},
   { title: "🥩 燒肉選項庫（10間）", items: [
     { name: "1. 燒肉ライク", tagText: "燒肉", region: "新宿", meta: [{icon:"📍",text:"新宿区歌舞伎町1-16-2"},{icon:"🕐",text:"24小時"}], tips: [], mapUrl: "https://www.google.com/maps/place/?q=place_id:ChIJL1YkC4GNGGARNqr8b77tRoA" },
