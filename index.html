@@ -64,6 +64,8 @@
   .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
   .card-title { font-size: 15px; font-weight: 700; line-height: 1.3; color: var(--text); }
   .card-title-jp { font-size: 11px; color: var(--subtext); margin-top: 1px; }
+  .copy-btn { display: inline-block; margin-left: 6px; font-size: 12px; line-height: 1; padding: 2px 4px; border: none; background: none; opacity: 0.5; cursor: pointer; vertical-align: middle; }
+  .copy-btn:active { opacity: 1; }
   .tag { flex-shrink: 0; font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 20px; }
   .tag-food { background: var(--tag-food); color: var(--tag-food-text); }
   .tag-sight { background: var(--tag-sight); color: var(--tag-sight-text); }
@@ -111,7 +113,54 @@
   .day-content.active { display: block; }
 </style>
 </head>
-<body><div id="pw-gate" style="position:fixed;inset:0;background:#eaf3fb;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;"><div style="font-size:40px;margin-bottom:12px;">🔒</div><p style="margin-bottom:16px;color:#1a202c;font-weight:600;">請輸入密碼查看行程</p><input id="pw-input" type="password" style="padding:10px 14px;border:1.5px solid #d3e3f0;border-radius:8px;font-size:16px;width:200px;margin-bottom:12px;" placeholder="密碼"><button onclick="checkPw()" style="padding:10px 24px;background:#2b6cb0;color:white;border:none;border-radius:8px;font-size:15px;cursor:pointer;">進入</button><p id="pw-error" style="color:#c2410c;font-size:13px;margin-top:10px;display:none;">密碼錯誤，請再試一次</p></div><script>(function(){if (sessionStorage.getItem('trip-unlocked') === 'yes') {document.getElementById('pw-gate')?.remove();}})();function checkPw(){const val = document.getElementById('pw-input').value;if (val === '116688') {sessionStorage.setItem('trip-unlocked', 'yes');document.getElementById('pw-gate').remove();} else {document.getElementById('pw-error').style.display = 'block';}}document.addEventListener('DOMContentLoaded', function(){document.getElementById('pw-input')?.addEventListener('keydown', function(e){if (e.key === 'Enter') checkPw();});});</script>
+<body><div id="pw-gate" style="position:fixed;inset:0;background:#eaf3fb;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;"><div style="font-size:40px;margin-bottom:12px;">🔒</div><p style="margin-bottom:16px;color:#1a202c;font-weight:600;">請輸入密碼查看行程</p><input id="pw-input" type="password" style="padding:10px 14px;border:1.5px solid #d3e3f0;border-radius:8px;font-size:16px;width:200px;margin-bottom:12px;" placeholder="密碼"><button onclick="checkPw()" style="padding:10px 24px;background:#2b6cb0;color:white;border:none;border-radius:8px;font-size:15px;cursor:pointer;">進入</button><p id="pw-error" style="color:#c2410c;font-size:13px;margin-top:10px;display:none;">密碼錯誤，請再試一次</p></div><script>(function(){if (sessionStorage.getItem('trip-unlocked') === 'yes') {document.getElementById('pw-gate')?.remove();window.__tripSignIn && window.__tripSignIn();}})();function checkPw(){const val = document.getElementById('pw-input').value;if (val === '116688') {sessionStorage.setItem('trip-unlocked', 'yes');document.getElementById('pw-gate').remove();window.__tripSignIn ? window.__tripSignIn() : window.addEventListener('trip-fb-ready', () => window.__tripSignIn());} else {document.getElementById('pw-error').style.display = 'block';}}document.addEventListener('DOMContentLoaded', function(){document.getElementById('pw-input')?.addEventListener('keydown', function(e){if (e.key === 'Enter') checkPw();});});</script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+  import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc, setDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAb7IB_k2HGPHbyY3J1fuU4LI4h9Rbx7po",
+    authDomain: "japan-trip-2027-3899d.firebaseapp.com",
+    projectId: "japan-trip-2027-3899d",
+    storageBucket: "japan-trip-2027-3899d.firebasestorage.app",
+    messagingSenderId: "339827530659",
+    appId: "1:339827530659:web:17c5c5cbbddbb87dd31816"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  window.__trip = { app, auth, db, doc, getDoc, setDoc, onSnapshot, serverTimestamp, authReady: false };
+
+  window.__tripSignIn = function () {
+    if (window.__trip.signInStarted) return;
+    window.__trip.signInStarted = true;
+    signInAnonymously(auth).catch(err => console.error('Firebase 匿名登入失敗:', err));
+  };
+
+  onAuthStateChanged(auth, (user) => {
+    window.__trip.authReady = !!user;
+    window.dispatchEvent(new CustomEvent('trip-auth-ready', { detail: { uid: user ? user.uid : null } }));
+  });
+
+  // Connectivity self-test (console only) — call window.__tripPing() from devtools to verify Firestore access
+  window.__tripPing = async function () {
+    try {
+      await setDoc(doc(db, 'meta', 'heartbeat'), { lastPing: serverTimestamp() }, { merge: true });
+      const snap = await getDoc(doc(db, 'meta', 'heartbeat'));
+      console.log('✅ Firestore connectivity OK:', snap.data());
+      return true;
+    } catch (err) {
+      console.error('❌ Firestore connectivity FAILED:', err);
+      return false;
+    }
+  };
+
+  window.dispatchEvent(new CustomEvent('trip-fb-ready'));
+</script>
+
 
 <div class="header">
   <div class="header-top">
@@ -1171,6 +1220,32 @@ document.querySelectorAll('input[type=checkbox]').forEach(cb => {
   const saved = localStorage.getItem(cb.id);
   if (saved === 'true') cb.checked = true;
   cb.addEventListener('change', () => localStorage.setItem(cb.id, cb.checked));
+});
+document.querySelectorAll('.card-title').forEach(el => {
+  const name = el.textContent.trim();
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'copy-btn';
+  btn.title = '複製名稱';
+  btn.textContent = '📋';
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const done = () => { btn.textContent = '✅'; setTimeout(() => { btn.textContent = '📋'; }, 1200); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(name).then(done).catch(done);
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = name;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (err) {}
+      document.body.removeChild(ta);
+      done();
+    }
+  });
+  el.appendChild(btn);
 });
 </script>
 
