@@ -419,7 +419,8 @@
         <div class="timeline-content">
           <div class="card"><div class="card-body">
             <div class="card-top"><div><div class="card-title">TORI bien 燒鳥</div></div><span class="tag tag-food">餐廳</span></div><div class="card-tip">🚏 Paul House徒步約10分鐘</div>
-            <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/search/?api=1&query=tori-bien-asakusa" target="_blank">📍 導航</a></div>
+            <div class="card-meta"><div class="meta-row"><span class="icon">📍</span><span>台東区浅草3-35-12</span></div></div>
+            <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJnyKIYOqOGGARvF3Nhj8U8cc" target="_blank">📍 導航</a></div>
           </div></div>
         </div>
       </div>
@@ -510,7 +511,8 @@
         <div class="timeline-content">
           <div class="card"><div class="card-body">
             <div class="card-top"><div><div class="card-title">Harenoichi 燒鳥</div></div><span class="tag tag-food">餐廳</span></div><div class="card-tip">🚏 徒步約5分鐘</div>
-            <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/search/?api=1&query=harenoichi-nishiasakusa" target="_blank">📍 導航</a></div>
+            <div class="card-meta"><div class="meta-row"><span class="icon">📍</span><span>台東区西浅草3-12-8</span></div></div>
+            <div class="btn-row"><a class="btn-map" href="https://www.google.com/maps/place/?q=place_id:ChIJJ3y6mJWOGGARTPddkN3HObM" target="_blank">📍 導航</a></div>
           </div></div>
         </div>
       </div>
@@ -1103,7 +1105,7 @@ attachAddressCopyButtons(document);
 
 const DEFAULT_FOODBANK = { sections: [
   { title: "🍣 Omakase・高級選項庫", items: [
-    { name: "鮨けんすけ Sushi Kensuke", nameJp: "Omakase・麻布十番", tagText: "壽司", region: "麻布十番・南青山", rating: "", meta: [{icon:"📍",text:"港区麻布十番1-11-11 7F"},{icon:"💴",text:"¥29,000/人"},{icon:"📞",text:"03-6426-5791"}], desc: "招牌「50刀大トロ」，油脂纖維融合入口即化", tips: ["💡 目前還好訂，建議盡早訂位。📅 建議Day 8晚上"], mapUrl: "https://www.google.com/maps/search/?api=1&query=鮨けんすけ+麻布十番" },
+    { name: "鮨けんすけ Sushi Kensuke", nameJp: "Omakase・麻布十番", tagText: "壽司", region: "麻布十番・南青山", priority: true, rating: "", meta: [{icon:"📍",text:"港区麻布十番1-11-11 7F"},{icon:"💴",text:"¥29,000/人"},{icon:"📞",text:"03-6426-5791"}], desc: "招牌「50刀大トロ」，油脂纖維融合入口即化", tips: ["💡 目前還好訂，建議盡早訂位。📅 建議Day 8晚上"], mapUrl: "https://www.google.com/maps/search/?api=1&query=鮨けんすけ+麻布十番" },
     { name: "たきや Takiya", nameJp: "天婦羅・麻布十番", tagText: "天婦羅", region: "麻布十番・南青山", rating: "★★★★★ 4.50・Tabelog2026金牌", meta: [{icon:"📍",text:"港区麻布十番2-8-6 2F"},{icon:"💴",text:"¥34,000-53,000/人"},{icon:"📞",text:"+81 3-6804-1732"}], desc: "超難訂天婦羅名店，招牌和牛紫蘇捲、豬起司天婦羅", tips: ["💡 ⚠️ 需提前數月訂位。📅 可與Day 8對調，跟Sushi Kensuke同區"], mapUrl: "https://www.google.com/maps/search/?api=1&query=たきや+麻布十番" },
     { name: "銀座 Ibuki", nameJp: "懷石料理", tagText: "懷石", region: "銀座・京橋・築地", rating: "★★★★★ 4.7", meta: [{icon:"📍",text:"中央区銀座2-14-6 B1F"},{icon:"💴",text:"午間約¥9,000/人"},{icon:"📞",text:"+81 50-3188-0660"}], desc: "蟹肉丸子湯、鯖魚釜飯，翻譯機協助溝通無語言隔閡", tips: ["💡 午餐比晚餐划算。📅 建議Day 9替換壽司初夢午餐"], mapUrl: "https://www.google.com/maps/search/?api=1&query=銀座+Ibuki" }
   ]},
@@ -1171,6 +1173,7 @@ const DEFAULT_FOODBANK = { sections: [
 let foodbankData = null;
 let foodbankEditMode = false;
 let foodbankRegionFilter = '';
+let foodbankPriorityOnly = false;
 let foodbankUnsub = null;
 
 function fbEscape(str) {
@@ -1181,12 +1184,19 @@ function renderFoodbankFilters() {
   const bar = document.getElementById('foodbank-filter-bar');
   if (!foodbankData) return;
   const regions = Array.from(new Set(foodbankData.sections.flatMap(s => s.items.map(i => i.region).filter(Boolean)))).sort();
-  bar.innerHTML = `<select id="foodbank-region-select" style="width:100%;padding:8px 10px;border-radius:10px;border:1.5px solid var(--border);background:var(--card-bg);font-size:13px;color:var(--text);">
+  bar.innerHTML = `<select id="foodbank-region-select" style="width:100%;padding:8px 10px;border-radius:10px;border:1.5px solid var(--border);background:var(--card-bg);font-size:13px;color:var(--text);margin-bottom:6px;">
     <option value="">📍 依地區篩選（全部地區）</option>
     ${regions.map(r => `<option value="${fbEscape(r)}"${r === foodbankRegionFilter ? ' selected' : ''}>${fbEscape(r)}</option>`).join('')}
-  </select>`;
+  </select>
+  <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--subtext);">
+    <input type="checkbox" id="foodbank-priority-toggle"${foodbankPriorityOnly ? ' checked' : ''}> ⭐ 只顯示優先項目
+  </label>`;
   document.getElementById('foodbank-region-select').addEventListener('change', (e) => {
     foodbankRegionFilter = e.target.value;
+    renderFoodbank();
+  });
+  document.getElementById('foodbank-priority-toggle').addEventListener('change', (e) => {
+    foodbankPriorityOnly = e.target.checked;
     renderFoodbank();
   });
 }
@@ -1199,17 +1209,20 @@ function renderFoodbank() {
   foodbankData.sections.forEach((section, sIdx) => {
     const items = section.items
       .map((item, iIdx) => ({ item, iIdx }))
-      .filter(({ item }) => !foodbankRegionFilter || item.region === foodbankRegionFilter);
+      .filter(({ item }) => !foodbankRegionFilter || item.region === foodbankRegionFilter)
+      .filter(({ item }) => !foodbankPriorityOnly || item.priority)
+      .sort((a, b) => (b.item.priority ? 1 : 0) - (a.item.priority ? 1 : 0));
     if (!items.length && !foodbankEditMode) return;
     html += `<div class="section-title" style="display:flex;align-items:center;justify-content:space-between;">`
       + `<span>${fbEscape(section.title)}</span>`
       + (foodbankEditMode ? `<button type="button" class="fb-del-section" data-s="${sIdx}" style="border:none;background:none;color:#c2410c;font-size:12px;cursor:pointer;">🗑 刪除分類</button>` : '')
       + `</div>`;
     items.forEach(({ item, iIdx }) => {
-      html += `<div class="card" style="margin-bottom:12px"><div class="card-body">`
-        + `<div class="card-top"><div><div class="card-title">${fbEscape(item.name)}</div>`
+      html += `<div class="card" style="margin-bottom:12px${item.priority ? ';border-color:#c9a24d;border-width:2px' : ''}"><div class="card-body">`
+        + `<div class="card-top"><div><div class="card-title">${item.priority ? '⭐ ' : ''}${fbEscape(item.name)}</div>`
         + (item.nameJp ? `<div class="card-title-jp">${fbEscape(item.nameJp)}</div>` : '')
         + `</div><span class="tag tag-food">${fbEscape(item.tagText || '')}</span></div>`
+        + `<label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--subtext);margin-top:6px;"><input type="checkbox" class="fb-priority-cb" data-s="${sIdx}" data-i="${iIdx}"${item.priority ? ' checked' : ''}> 設為優先</label>`
         + (item.region ? `<div class="card-title-jp">📍 ${fbEscape(item.region)}</div>` : '')
         + (item.rating ? `<div class="rating">${fbEscape(item.rating)}</div>` : '')
         + ((item.meta && item.meta.length) ? `<div class="card-meta">${item.meta.map(m => `<div class="meta-row"><span class="icon">${fbEscape(m.icon)}</span><span>${fbEscape(m.text)}</span></div>`).join('')}</div>` : '')
@@ -1234,6 +1247,11 @@ function renderFoodbank() {
   root.querySelectorAll('.fb-del-item').forEach(btn => btn.addEventListener('click', () => deleteFoodbankItem(+btn.dataset.s, +btn.dataset.i)));
   root.querySelectorAll('.fb-add-item').forEach(btn => btn.addEventListener('click', () => openFoodbankItemForm(+btn.dataset.s, null)));
   root.querySelectorAll('.fb-del-section').forEach(btn => btn.addEventListener('click', () => deleteFoodbankSection(+btn.dataset.s)));
+  root.querySelectorAll('.fb-priority-cb').forEach(cb => cb.addEventListener('change', () => {
+    foodbankData.sections[+cb.dataset.s].items[+cb.dataset.i].priority = cb.checked;
+    renderFoodbank();
+    saveFoodbank();
+  }));
   const addSectionBtn = document.getElementById('fb-add-section');
   if (addSectionBtn) addSectionBtn.addEventListener('click', addFoodbankSection);
   renderDayFoodSuggestions();
@@ -1266,8 +1284,8 @@ function renderDayFoodSuggestions() {
     const matches = allItems.filter(i => regions.includes(i.region));
     if (!matches.length) { box.innerHTML = ''; return; }
     box.innerHTML = `<p class="section-title">🍽️ 順路食庫推薦（${fbEscape(regions.join('・'))}）</p>`
-      + matches.map(item => `<div class="card" style="margin-bottom:8px"><div class="card-body" style="padding:10px 12px;">`
-        + `<div class="card-top"><div><div class="card-title" style="font-size:13px;">${fbEscape(item.name)}</div>`
+      + matches.slice().sort((a, b) => (b.priority ? 1 : 0) - (a.priority ? 1 : 0)).map(item => `<div class="card" style="margin-bottom:8px"><div class="card-body" style="padding:10px 12px;">`
+        + `<div class="card-top"><div><div class="card-title" style="font-size:13px;">${item.priority ? '⭐ ' : ''}${fbEscape(item.name)}</div>`
         + (item.nameJp ? `<div class="card-title-jp">${fbEscape(item.nameJp)}</div>` : '')
         + `</div><span class="tag tag-food">${fbEscape(item.tagText || '')}</span></div>`
         + (item.rating ? `<div class="rating">${fbEscape(item.rating)}</div>` : '')
