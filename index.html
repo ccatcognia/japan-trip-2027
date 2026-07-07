@@ -1,5 +1,6 @@
 <html lang="zh-TW">
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>🇯🇵 東京・箱根 2027</title>
 <style>
@@ -935,69 +936,19 @@
 </div><!-- end page-itinerary -->
 
 <div id="page-hotel" class="page">
-  <p class="section-title">住宿總覽</p>
-  <div class="hotel-card">
-    <span class="confirm-badge">✅ 已確認</span>
-    <h3>🏨 APA Hotel 新宿歌舞伎町塔</h3>
-    <p class="dates">📅 Jan 19 → Jan 20（1晚）</p>
-    <div class="hotel-detail">📍 新宿区歌舞伎町2-31-12</div>
-    <div class="hotel-detail">🛏 房A（CC&BM）：¥14,382</div>
-    <div class="hotel-detail">🛏 房B（SC&YP）：¥14,382</div>
-
-    <div class="btn-row" style="margin-top:10px"><a class="btn-map" href="https://www.google.com/maps/search/?api=1&query=APA-Shinjuku" target="_blank">📍 導航</a></div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+    <p class="section-title" style="margin:0;">住宿總覽</p>
+    <button id="hotel-edit-toggle" type="button" style="flex-shrink:0;padding:6px 14px;border-radius:20px;border:1.5px solid var(--primary);background:var(--card-bg);color:var(--primary);font-size:12px;font-weight:600;cursor:pointer;">✏️ 編輯模式</button>
   </div>
-  <div class="hotel-card">
-    <span class="confirm-badge">✅ 已確認</span>
-    <h3>♨️ 吉池旅館 Yoshiike Ryokan</h3>
-    <p class="dates">📅 Jan 20 → Jan 22（2晚）</p>
-    <div class="hotel-detail">📍 神奈川県足柄下郡箱根町湯本597</div>
-    <div class="hotel-detail">🛏 房A（CC&BM）：¥115,000</div>
-    <div class="hotel-detail">🛏 房B（SC&YP）：¥92,400</div>
-    <div class="hotel-detail">📞 +81 460-85-5711</div>
-    <div class="btn-row" style="margin-top:10px"><a class="btn-map" href="https://www.google.com/maps/search/?api=1&query=yoshiike-ryokan-hakone" target="_blank">📍 導航</a></div>
-  </div>
-  <div class="hotel-card">
-    <span class="confirm-badge">✅ 已確認</span>
-    <h3>🏠 Paul House</h3>
-    <p class="dates">📅 Jan 22 → Jan 28（6晚）</p>
-    <div class="hotel-detail">📍 東京都台東区東上野1-19-8</div>
-    <div class="hotel-detail">🔤 1-19-8, Higashiueno, Taito, Tokyo</div>
-    <div class="hotel-detail">💴 ¥259,000（6晚）</div>
-    <div class="hotel-detail">🛏 每人均分：¥64,750（÷4人）</div>
-    <div class="hotel-detail">📞 03-5846-8809</div>
-    <div class="btn-row" style="margin-top:10px"><a class="btn-map" href="https://www.google.com/maps/search/?api=1&query=paul-house-ueno" target="_blank">📍 導航</a></div>
-  </div>
-  <div class="hotel-card">
-    <h3>💴 住宿總計（每人）</h3>
-    <div class="hotel-detail">🛏 CC・BM（房A）：¥129,441（APA 7,191＋箱根 57,500＋Paul House 64,750）</div>
-    <div class="hotel-detail">🛏 SC・YP（房B）：¥118,141（APA 7,191＋箱根 46,200＋Paul House 64,750）</div>
-  </div>
+  <div id="hotel-content"></div>
 </div>
 
 <div id="page-transport" class="page">
-  <p class="section-title">✈️ 航班資訊</p>
-  <div class="hotel-card">
-    <span class="confirm-badge">✅ 已確認</span>
-    <h3>🛫 去程 JX 800 星宇航空</h3>
-    <p class="dates">📅 2027年1月19日</p>
-    <div class="hotel-detail">🛫 TPE 08:25 → 🛬 NRT 12:35</div>
-    <div class="hotel-detail">✈️ Airbus A350-1000</div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+    <p class="section-title" style="margin:0;">✈️ 航班資訊</p>
+    <button id="transport-edit-toggle" type="button" style="flex-shrink:0;padding:6px 14px;border-radius:20px;border:1.5px solid var(--primary);background:var(--card-bg);color:var(--primary);font-size:12px;font-weight:600;cursor:pointer;">✏️ 編輯模式</button>
   </div>
-  <div class="hotel-card">
-    <span class="confirm-badge">✅ 已確認</span>
-    <h3>🛬 回程 JL 97 日本航空</h3>
-    <p class="dates">📅 2027年1月28日</p>
-    <div class="hotel-detail">🛫 HND 08:40 → 🛬 TSA 11:40</div>
-  </div>
-  <p class="section-title">🃏 交通票券</p>
-  <div class="info-card"><h3>🚇 Tokyo Subway Ticket（地鐵主力票券）</h3><p>東京Metro＋都營地下鐵全線通用的外國旅客專屬一日票，涵蓋新宿、澀谷、原宿、淺草、上野、銀座、六本木等地區。24小時¥1,000・48小時¥1,500・72小時¥2,000（2026年價格，需護照購買）。<br><a href="https://www.tokyometro.jp/en/ticket/travel/index.html" target="_blank" style="color:var(--primary);text-decoration:underline;">查看Tokyo Subway Ticket官網資訊</a></p></div>
-  <div class="info-card"><h3>Suica（輔助用）</h3><p>用於Tokyo Subway Ticket覆蓋範圍以外的交通，如JR線、公車、便利商店消費。每人充值¥3,000–5,000通常夠用。押金¥500可退。</p></div>
-  <div class="info-card"><h3>🎟 箱根Free Pass</h3><p>¥7,100/人+浪漫號¥1,200/人。<br><a href="https://www.odakyu.jp/romancecar/" target="_blank" style="color:var(--primary);text-decoration:underline;">查看小田急浪漫號時刻表／空位查詢</a></p></div>
-  <p class="section-title">🚐 備用交通</p>
-  <div class="info-card">
-    <h3>Japan Tours - Car & Bus</h3>
-    <p>山田研真・機場接送/包車服務<br>📞 +81 80-1382-8209<br>✉️ fujijapantour@gmail.com</p>
-  </div>
+  <div id="transport-content"></div>
 </div>
 <div id="page-foodbank" class="page">
   <div style="display:flex;gap:8px;margin-bottom:10px;">
@@ -1109,10 +1060,10 @@
 </div>
 
 <div id="page-info" class="page">
-  <div class="info-card"><h3>📶 網路</h3><p>eSIM出發前設定最方便</p></div>
-  <div class="info-card"><h3>💴 換匯</h3><p>7-Eleven ATM可用台灣金融卡提款</p></div>
-  <div class="info-card"><h3>🚨 緊急聯絡</h3><p>警察110・救護119・台灣駐日代表處+81-3-3280-7811</p></div>
-  <div class="info-card"><h3>🌡 🚐 備用交通・私人包車</h3><p><strong>Japan Tours - Car & Bus</strong>（山田研真）<br>📞 +81 80-1382-8209（電話/WhatsApp）<br>✉️ fujijapantour@gmail.com<br>📍 東京都千代田區東神田2丁目1-3みづほビル<br>💬 可用WeChat、LINE、WhatsApp聯絡<br><span style="color:var(--subtext);font-size:11px">用途：機場接送、臨時包車，可作為計程車以外的備用聯絡方式</span></p></div><div class="info-card"><h3>🌡️ 1月天氣</h3><p>東京5–10°C，箱根2–8°C可能下雪</p></div>
+  <div style="display:flex;gap:8px;margin-bottom:10px;justify-content:flex-end;">
+    <button id="info-edit-toggle" type="button" style="flex-shrink:0;padding:6px 14px;border-radius:20px;border:1.5px solid var(--primary);background:var(--card-bg);color:var(--primary);font-size:12px;font-weight:600;cursor:pointer;">✏️ 編輯模式</button>
+  </div>
+  <div id="info-content"></div>
 </div>
 
 <div class="bottom-nav">
@@ -1864,6 +1815,508 @@ document.getElementById('luggage-edit-toggle').addEventListener('click', functio
 });
 
 loadLuggage();
+
+const DEFAULT_HOTEL = {
+  hotels: [
+    { icon: "🏨", name: "APA Hotel 新宿歌舞伎町塔", confirmed: true, dates: "Jan 19 → Jan 20（1晚）", address: "新宿区歌舞伎町2-31-12", phone: "", mapQuery: "APA-Shinjuku", detailLines: ["🛏 房A（CC&BM）：¥14,382", "🛏 房B（SC&YP）：¥14,382"] },
+    { icon: "♨️", name: "吉池旅館 Yoshiike Ryokan", confirmed: true, dates: "Jan 20 → Jan 22（2晚）", address: "神奈川県足柄下郡箱根町湯本597", phone: "+81 460-85-5711", mapQuery: "yoshiike-ryokan-hakone", detailLines: ["🛏 房A（CC&BM）：¥115,000", "🛏 房B（SC&YP）：¥92,400"] },
+    { icon: "🏠", name: "Paul House", confirmed: true, dates: "Jan 22 → Jan 28（6晚）", address: "東京都台東区東上野1-19-8", phone: "03-5846-8809", mapQuery: "paul-house-ueno", detailLines: ["🔤 1-19-8, Higashiueno, Taito, Tokyo", "💴 ¥259,000（6晚）", "🛏 每人均分：¥64,750（÷4人）"] }
+  ],
+  summaryTitle: "💴 住宿總計（每人）",
+  summaryLines: ["🛏 CC・BM（房A）：¥129,441（APA 7,191＋箱根 57,500＋Paul House 64,750）", "🛏 SC・YP（房B）：¥118,141（APA 7,191＋箱根 46,200＋Paul House 64,750）"]
+};
+
+let hotelData = null;
+let hotelEditMode = false;
+let hotelUnsub = null;
+
+function htEscape(str) {
+  return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function saveHotel() {
+  localStorage.setItem('hotel-cache', JSON.stringify(hotelData));
+  const t = window.__trip;
+  if (t && t.authReady) {
+    t.setDoc(t.doc(t.db, 'trip', 'hotel'), hotelData).catch(err => console.error('住宿同步失敗:', err));
+  }
+}
+
+function deleteHotel(idx) {
+  if (!confirm('確定要刪除這間住宿嗎？')) return;
+  hotelData.hotels.splice(idx, 1);
+  renderHotel();
+  saveHotel();
+}
+
+function openHotelForm(idx) {
+  const isNew = idx === null;
+  const h = isNew ? { icon: '🏨', name: '', confirmed: true, dates: '', address: '', phone: '', mapQuery: '', detailLines: [] } : hotelData.hotels[idx];
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;display:flex;align-items:flex-end;justify-content:center;';
+  overlay.innerHTML = `
+    <div style="background:var(--card-bg);width:100%;max-width:430px;max-height:85vh;overflow-y:auto;border-radius:16px 16px 0 0;padding:20px 16px 24px;">
+      <h3 style="font-size:15px;margin-bottom:12px;">${isNew ? '新增住宿' : '編輯住宿'}</h3>
+      <label style="font-size:12px;color:var(--subtext);">圖示（emoji）</label>
+      <input id="ht-f-icon" style="width:100%;padding:8px;margin:4px 0 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;" value="${htEscape(h.icon || '')}">
+      <label style="font-size:12px;color:var(--subtext);">名稱 *</label>
+      <input id="ht-f-name" style="width:100%;padding:8px;margin:4px 0 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;" value="${htEscape(h.name)}">
+      <label style="font-size:12px;color:var(--subtext);"><input id="ht-f-confirmed" type="checkbox"${h.confirmed ? ' checked' : ''}> 已確認</label>
+      <label style="font-size:12px;color:var(--subtext);display:block;margin-top:10px;">日期</label>
+      <input id="ht-f-dates" style="width:100%;padding:8px;margin:4px 0 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;" value="${htEscape(h.dates || '')}">
+      <label style="font-size:12px;color:var(--subtext);">地址</label>
+      <input id="ht-f-address" style="width:100%;padding:8px;margin:4px 0 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;" value="${htEscape(h.address || '')}">
+      <label style="font-size:12px;color:var(--subtext);">電話</label>
+      <input id="ht-f-phone" style="width:100%;padding:8px;margin:4px 0 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;" value="${htEscape(h.phone || '')}">
+      <label style="font-size:12px;color:var(--subtext);">Google Maps搜尋關鍵字（導航按鈕用）</label>
+      <input id="ht-f-mapquery" style="width:100%;padding:8px;margin:4px 0 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;" value="${htEscape(h.mapQuery || '')}">
+      <label style="font-size:12px;color:var(--subtext);">明細（每行一項，如房價、備註）</label>
+      <textarea id="ht-f-lines" style="width:100%;padding:8px;margin:4px 0 14px;border:1px solid var(--border);border-radius:8px;font-size:13px;min-height:90px;">${htEscape((h.detailLines || []).join('\n'))}</textarea>
+      <div style="display:flex;gap:8px;">
+        <button type="button" id="ht-f-cancel" style="flex:1;padding:10px;border-radius:10px;border:1.5px solid var(--border);background:none;font-size:13px;cursor:pointer;">取消</button>
+        <button type="button" id="ht-f-save" style="flex:1;padding:10px;border-radius:10px;border:none;background:var(--primary);color:white;font-size:13px;font-weight:600;cursor:pointer;">儲存</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+  overlay.querySelector('#ht-f-cancel').addEventListener('click', () => overlay.remove());
+  overlay.querySelector('#ht-f-save').addEventListener('click', () => {
+    const name = overlay.querySelector('#ht-f-name').value.trim();
+    if (!name) { alert('名稱不可空白'); return; }
+    const newHotel = {
+      icon: overlay.querySelector('#ht-f-icon').value.trim(),
+      name,
+      confirmed: overlay.querySelector('#ht-f-confirmed').checked,
+      dates: overlay.querySelector('#ht-f-dates').value.trim(),
+      address: overlay.querySelector('#ht-f-address').value.trim(),
+      phone: overlay.querySelector('#ht-f-phone').value.trim(),
+      mapQuery: overlay.querySelector('#ht-f-mapquery').value.trim(),
+      detailLines: overlay.querySelector('#ht-f-lines').value.split('\n').map(s => s.trim()).filter(Boolean)
+    };
+    if (isNew) hotelData.hotels.push(newHotel);
+    else hotelData.hotels[idx] = newHotel;
+    overlay.remove();
+    renderHotel();
+    saveHotel();
+  });
+}
+
+function openHotelSummaryForm() {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;display:flex;align-items:flex-end;justify-content:center;';
+  overlay.innerHTML = `
+    <div style="background:var(--card-bg);width:100%;max-width:430px;max-height:85vh;overflow-y:auto;border-radius:16px 16px 0 0;padding:20px 16px 24px;">
+      <h3 style="font-size:15px;margin-bottom:12px;">編輯總計卡片</h3>
+      <label style="font-size:12px;color:var(--subtext);">標題</label>
+      <input id="ht-s-title" style="width:100%;padding:8px;margin:4px 0 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;" value="${htEscape(hotelData.summaryTitle || '')}">
+      <label style="font-size:12px;color:var(--subtext);">內容（每行一項）</label>
+      <textarea id="ht-s-lines" style="width:100%;padding:8px;margin:4px 0 14px;border:1px solid var(--border);border-radius:8px;font-size:13px;min-height:90px;">${htEscape((hotelData.summaryLines || []).join('\n'))}</textarea>
+      <div style="display:flex;gap:8px;">
+        <button type="button" id="ht-s-cancel" style="flex:1;padding:10px;border-radius:10px;border:1.5px solid var(--border);background:none;font-size:13px;cursor:pointer;">取消</button>
+        <button type="button" id="ht-s-save" style="flex:1;padding:10px;border-radius:10px;border:none;background:var(--primary);color:white;font-size:13px;font-weight:600;cursor:pointer;">儲存</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+  overlay.querySelector('#ht-s-cancel').addEventListener('click', () => overlay.remove());
+  overlay.querySelector('#ht-s-save').addEventListener('click', () => {
+    hotelData.summaryTitle = overlay.querySelector('#ht-s-title').value.trim();
+    hotelData.summaryLines = overlay.querySelector('#ht-s-lines').value.split('\n').map(s => s.trim()).filter(Boolean);
+    overlay.remove();
+    renderHotel();
+    saveHotel();
+  });
+}
+
+function renderHotel() {
+  const root = document.getElementById('hotel-content');
+  if (!hotelData) { root.innerHTML = ''; return; }
+  let html = '';
+  hotelData.hotels.forEach((h, idx) => {
+    html += `<div class="hotel-card">`
+      + (h.confirmed ? `<span class="confirm-badge">✅ 已確認</span>` : '')
+      + `<div style="display:flex;align-items:center;justify-content:space-between;"><h3>${htEscape(h.icon || '')} ${htEscape(h.name)}</h3>`
+      + (hotelEditMode ? `<span style="display:flex;gap:6px;flex-shrink:0;"><button type="button" class="ht-edit" data-i="${idx}" style="border:none;background:none;color:var(--primary);cursor:pointer;font-size:13px;">✎</button><button type="button" class="ht-del" data-i="${idx}" style="border:none;background:none;color:#c2410c;cursor:pointer;font-size:13px;">🗑</button></span>` : '')
+      + `</div>`
+      + (h.dates ? `<p class="dates">📅 ${htEscape(h.dates)}</p>` : '')
+      + (h.address ? `<div class="hotel-detail">📍 ${htEscape(h.address)}</div>` : '')
+      + (h.detailLines || []).map(l => `<div class="hotel-detail">${htEscape(l)}</div>`).join('')
+      + (h.phone ? `<div class="hotel-detail">📞 ${htEscape(h.phone)}</div>` : '')
+      + (h.mapQuery ? `<div class="btn-row" style="margin-top:10px"><a class="btn-map" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.mapQuery)}" target="_blank">📍 導航</a></div>` : '')
+      + `</div>`;
+  });
+  if (hotelEditMode) {
+    html += `<button type="button" id="ht-add" style="width:100%;padding:12px;margin:8px 0 16px;border:1.5px dashed var(--primary);border-radius:10px;background:none;color:var(--primary);font-size:13px;font-weight:600;cursor:pointer;">+ 新增住宿</button>`;
+  }
+  html += `<div class="hotel-card">`
+    + `<div style="display:flex;align-items:center;justify-content:space-between;"><h3>${htEscape(hotelData.summaryTitle || '')}</h3>`
+    + (hotelEditMode ? `<button type="button" id="ht-edit-summary" style="border:none;background:none;color:var(--primary);cursor:pointer;font-size:13px;">✎</button>` : '')
+    + `</div>`
+    + (hotelData.summaryLines || []).map(l => `<div class="hotel-detail">${htEscape(l)}</div>`).join('')
+    + `</div>`;
+  root.innerHTML = html;
+  root.querySelectorAll('.ht-edit').forEach(btn => btn.addEventListener('click', () => openHotelForm(+btn.dataset.i)));
+  root.querySelectorAll('.ht-del').forEach(btn => btn.addEventListener('click', () => deleteHotel(+btn.dataset.i)));
+  const addBtn = document.getElementById('ht-add');
+  if (addBtn) addBtn.addEventListener('click', () => openHotelForm(null));
+  const editSummaryBtn = document.getElementById('ht-edit-summary');
+  if (editSummaryBtn) editSummaryBtn.addEventListener('click', openHotelSummaryForm);
+}
+
+function loadHotel() {
+  const cached = localStorage.getItem('hotel-cache');
+  hotelData = cached ? JSON.parse(cached) : JSON.parse(JSON.stringify(DEFAULT_HOTEL));
+  renderHotel();
+
+  const t = window.__trip;
+  if (!t) return;
+  const subscribe = () => {
+    if (hotelUnsub) return;
+    hotelUnsub = t.onSnapshot(t.doc(t.db, 'trip', 'hotel'), (snap) => {
+      if (snap.exists()) {
+        hotelData = snap.data();
+        localStorage.setItem('hotel-cache', JSON.stringify(hotelData));
+        renderHotel();
+      } else {
+        t.setDoc(t.doc(t.db, 'trip', 'hotel'), DEFAULT_HOTEL).catch(err => console.error('住宿初始化失敗:', err));
+      }
+    }, (err) => console.error('住宿同步監聽失敗:', err));
+  };
+  if (t.authReady) subscribe();
+  else window.addEventListener('trip-auth-ready', subscribe, { once: true });
+}
+
+document.getElementById('hotel-edit-toggle').addEventListener('click', function () {
+  const t = window.__trip;
+  if (!hotelEditMode && (!t || !t.authReady)) {
+    alert('請先輸入密碼解鎖才能編輯');
+    return;
+  }
+  hotelEditMode = !hotelEditMode;
+  this.textContent = hotelEditMode ? '✅ 完成編輯' : '✏️ 編輯模式';
+  renderHotel();
+});
+
+loadHotel();
+
+const DEFAULT_TRANSPORT = {
+  flights: [
+    { icon: "🛫", title: "去程 JX 800 星宇航空", confirmed: true, date: "2027年1月19日", lines: ["🛫 TPE 08:25 → 🛬 NRT 12:35", "✈️ Airbus A350-1000"] },
+    { icon: "🛬", title: "回程 JL 97 日本航空", confirmed: true, date: "2027年1月28日", lines: ["🛫 HND 08:40 → 🛬 TSA 11:40"] }
+  ],
+  cards: [
+    { group: "🃏 交通票券", title: "🚇 Tokyo Subway Ticket（地鐵主力票券）", body: "東京Metro＋都營地下鐵全線通用的外國旅客專屬一日票，涵蓋新宿、澀谷、原宿、淺草、上野、銀座、六本木等地區。24小時¥1,000・48小時¥1,500・72小時¥2,000（2026年價格，需護照購買）。<br><a href='https://www.tokyometro.jp/en/ticket/travel/index.html' target='_blank' style='color:var(--primary);text-decoration:underline;'>查看Tokyo Subway Ticket官網資訊</a>" },
+    { group: "🃏 交通票券", title: "Suica（輔助用）", body: "用於Tokyo Subway Ticket覆蓋範圍以外的交通，如JR線、公車、便利商店消費。每人充值¥3,000–5,000通常夠用。押金¥500可退。" },
+    { group: "🃏 交通票券", title: "🎟 箱根Free Pass", body: "¥7,100/人+浪漫號¥1,200/人。<br><a href='https://www.odakyu.jp/romancecar/' target='_blank' style='color:var(--primary);text-decoration:underline;'>查看小田急浪漫號時刻表／空位查詢</a>" },
+    { group: "🚐 備用交通", title: "Japan Tours - Car & Bus", body: "山田研真・機場接送/包車服務<br>📞 +81 80-1382-8209<br>✉️ fujijapantour@gmail.com" }
+  ]
+};
+
+let transportData = null;
+let transportEditMode = false;
+let transportUnsub = null;
+
+function tpEscape(str) {
+  return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function saveTransport() {
+  localStorage.setItem('transport-cache', JSON.stringify(transportData));
+  const t = window.__trip;
+  if (t && t.authReady) {
+    t.setDoc(t.doc(t.db, 'trip', 'transport'), transportData).catch(err => console.error('交通同步失敗:', err));
+  }
+}
+
+function deleteFlight(idx) {
+  if (!confirm('確定要刪除這個航班嗎？')) return;
+  transportData.flights.splice(idx, 1);
+  renderTransport();
+  saveTransport();
+}
+
+function openFlightForm(idx) {
+  const isNew = idx === null;
+  const f = isNew ? { icon: '🛫', title: '', confirmed: true, date: '', lines: [] } : transportData.flights[idx];
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;display:flex;align-items:flex-end;justify-content:center;';
+  overlay.innerHTML = `
+    <div style="background:var(--card-bg);width:100%;max-width:430px;max-height:85vh;overflow-y:auto;border-radius:16px 16px 0 0;padding:20px 16px 24px;">
+      <h3 style="font-size:15px;margin-bottom:12px;">${isNew ? '新增航班' : '編輯航班'}</h3>
+      <label style="font-size:12px;color:var(--subtext);">圖示（emoji）</label>
+      <input id="tp-f-icon" style="width:100%;padding:8px;margin:4px 0 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;" value="${tpEscape(f.icon || '')}">
+      <label style="font-size:12px;color:var(--subtext);">標題 *</label>
+      <input id="tp-f-title" style="width:100%;padding:8px;margin:4px 0 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;" value="${tpEscape(f.title)}">
+      <label style="font-size:12px;color:var(--subtext);"><input id="tp-f-confirmed" type="checkbox"${f.confirmed ? ' checked' : ''}> 已確認</label>
+      <label style="font-size:12px;color:var(--subtext);display:block;margin-top:10px;">日期</label>
+      <input id="tp-f-date" style="width:100%;padding:8px;margin:4px 0 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;" value="${tpEscape(f.date || '')}">
+      <label style="font-size:12px;color:var(--subtext);">明細（每行一項）</label>
+      <textarea id="tp-f-lines" style="width:100%;padding:8px;margin:4px 0 14px;border:1px solid var(--border);border-radius:8px;font-size:13px;min-height:90px;">${tpEscape((f.lines || []).join('\n'))}</textarea>
+      <div style="display:flex;gap:8px;">
+        <button type="button" id="tp-f-cancel" style="flex:1;padding:10px;border-radius:10px;border:1.5px solid var(--border);background:none;font-size:13px;cursor:pointer;">取消</button>
+        <button type="button" id="tp-f-save" style="flex:1;padding:10px;border-radius:10px;border:none;background:var(--primary);color:white;font-size:13px;font-weight:600;cursor:pointer;">儲存</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+  overlay.querySelector('#tp-f-cancel').addEventListener('click', () => overlay.remove());
+  overlay.querySelector('#tp-f-save').addEventListener('click', () => {
+    const title = overlay.querySelector('#tp-f-title').value.trim();
+    if (!title) { alert('標題不可空白'); return; }
+    const newFlight = {
+      icon: overlay.querySelector('#tp-f-icon').value.trim(),
+      title,
+      confirmed: overlay.querySelector('#tp-f-confirmed').checked,
+      date: overlay.querySelector('#tp-f-date').value.trim(),
+      lines: overlay.querySelector('#tp-f-lines').value.split('\n').map(s => s.trim()).filter(Boolean)
+    };
+    if (isNew) transportData.flights.push(newFlight);
+    else transportData.flights[idx] = newFlight;
+    overlay.remove();
+    renderTransport();
+    saveTransport();
+  });
+}
+
+function deleteTransportCard(idx) {
+  if (!confirm('確定要刪除這張卡片嗎？')) return;
+  transportData.cards.splice(idx, 1);
+  renderTransport();
+  saveTransport();
+}
+
+function openTransportCardForm(idx) {
+  const isNew = idx === null;
+  const c = isNew ? { group: '', title: '', body: '' } : transportData.cards[idx];
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;display:flex;align-items:flex-end;justify-content:center;';
+  overlay.innerHTML = `
+    <div style="background:var(--card-bg);width:100%;max-width:430px;max-height:85vh;overflow-y:auto;border-radius:16px 16px 0 0;padding:20px 16px 24px;">
+      <h3 style="font-size:15px;margin-bottom:12px;">${isNew ? '新增卡片' : '編輯卡片'}</h3>
+      <label style="font-size:12px;color:var(--subtext);">分類（如：🃏 交通票券）*</label>
+      <input id="tc-f-group" style="width:100%;padding:8px;margin:4px 0 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;" value="${tpEscape(c.group || '')}">
+      <label style="font-size:12px;color:var(--subtext);">標題 *</label>
+      <input id="tc-f-title" style="width:100%;padding:8px;margin:4px 0 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;" value="${tpEscape(c.title)}">
+      <label style="font-size:12px;color:var(--subtext);">內容（可用HTML，如&lt;br&gt;換行、&lt;a href&gt;連結）*</label>
+      <textarea id="tc-f-body" style="width:100%;padding:8px;margin:4px 0 14px;border:1px solid var(--border);border-radius:8px;font-size:13px;min-height:110px;">${tpEscape(c.body || '')}</textarea>
+      <div style="display:flex;gap:8px;">
+        <button type="button" id="tc-f-cancel" style="flex:1;padding:10px;border-radius:10px;border:1.5px solid var(--border);background:none;font-size:13px;cursor:pointer;">取消</button>
+        <button type="button" id="tc-f-save" style="flex:1;padding:10px;border-radius:10px;border:none;background:var(--primary);color:white;font-size:13px;font-weight:600;cursor:pointer;">儲存</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+  overlay.querySelector('#tc-f-cancel').addEventListener('click', () => overlay.remove());
+  overlay.querySelector('#tc-f-save').addEventListener('click', () => {
+    const group = overlay.querySelector('#tc-f-group').value.trim();
+    const title = overlay.querySelector('#tc-f-title').value.trim();
+    if (!group || !title) { alert('分類與標題不可空白'); return; }
+    const newCard = { group, title, body: overlay.querySelector('#tc-f-body').value };
+    if (isNew) transportData.cards.push(newCard);
+    else transportData.cards[idx] = newCard;
+    overlay.remove();
+    renderTransport();
+    saveTransport();
+  });
+}
+
+function renderTransport() {
+  const root = document.getElementById('transport-content');
+  if (!transportData) { root.innerHTML = ''; return; }
+  let html = '';
+  transportData.flights.forEach((f, idx) => {
+    html += `<div class="hotel-card">`
+      + (f.confirmed ? `<span class="confirm-badge">✅ 已確認</span>` : '')
+      + `<div style="display:flex;align-items:center;justify-content:space-between;"><h3>${tpEscape(f.icon || '')} ${tpEscape(f.title)}</h3>`
+      + (transportEditMode ? `<span style="display:flex;gap:6px;flex-shrink:0;"><button type="button" class="tp-edit-flight" data-i="${idx}" style="border:none;background:none;color:var(--primary);cursor:pointer;font-size:13px;">✎</button><button type="button" class="tp-del-flight" data-i="${idx}" style="border:none;background:none;color:#c2410c;cursor:pointer;font-size:13px;">🗑</button></span>` : '')
+      + `</div>`
+      + (f.date ? `<p class="dates">📅 ${tpEscape(f.date)}</p>` : '')
+      + (f.lines || []).map(l => `<div class="hotel-detail">${tpEscape(l)}</div>`).join('')
+      + `</div>`;
+  });
+  if (transportEditMode) {
+    html += `<button type="button" id="tp-add-flight" style="width:100%;padding:12px;margin:8px 0 16px;border:1.5px dashed var(--primary);border-radius:10px;background:none;color:var(--primary);font-size:13px;font-weight:600;cursor:pointer;">+ 新增航班</button>`;
+  }
+  let lastGroup = null;
+  transportData.cards.forEach((c, idx) => {
+    if (c.group !== lastGroup) {
+      html += `<p class="section-title">${tpEscape(c.group)}</p>`;
+      lastGroup = c.group;
+    }
+    html += `<div class="info-card">`
+      + `<div style="display:flex;align-items:center;justify-content:space-between;"><h3>${tpEscape(c.title)}</h3>`
+      + (transportEditMode ? `<span style="display:flex;gap:6px;flex-shrink:0;"><button type="button" class="tc-edit" data-i="${idx}" style="border:none;background:none;color:var(--primary);cursor:pointer;font-size:13px;">✎</button><button type="button" class="tc-del" data-i="${idx}" style="border:none;background:none;color:#c2410c;cursor:pointer;font-size:13px;">🗑</button></span>` : '')
+      + `</div><p>${c.body}</p></div>`;
+  });
+  if (transportEditMode) {
+    html += `<button type="button" id="tc-add" style="width:100%;padding:12px;margin:8px 0 16px;border:1.5px dashed var(--primary);border-radius:10px;background:none;color:var(--primary);font-size:13px;font-weight:600;cursor:pointer;">+ 新增卡片</button>`;
+  }
+  root.innerHTML = html;
+  root.querySelectorAll('.tp-edit-flight').forEach(btn => btn.addEventListener('click', () => openFlightForm(+btn.dataset.i)));
+  root.querySelectorAll('.tp-del-flight').forEach(btn => btn.addEventListener('click', () => deleteFlight(+btn.dataset.i)));
+  const addFlightBtn = document.getElementById('tp-add-flight');
+  if (addFlightBtn) addFlightBtn.addEventListener('click', () => openFlightForm(null));
+  root.querySelectorAll('.tc-edit').forEach(btn => btn.addEventListener('click', () => openTransportCardForm(+btn.dataset.i)));
+  root.querySelectorAll('.tc-del').forEach(btn => btn.addEventListener('click', () => deleteTransportCard(+btn.dataset.i)));
+  const addCardBtn = document.getElementById('tc-add');
+  if (addCardBtn) addCardBtn.addEventListener('click', () => openTransportCardForm(null));
+}
+
+function loadTransport() {
+  const cached = localStorage.getItem('transport-cache');
+  transportData = cached ? JSON.parse(cached) : JSON.parse(JSON.stringify(DEFAULT_TRANSPORT));
+  renderTransport();
+
+  const t = window.__trip;
+  if (!t) return;
+  const subscribe = () => {
+    if (transportUnsub) return;
+    transportUnsub = t.onSnapshot(t.doc(t.db, 'trip', 'transport'), (snap) => {
+      if (snap.exists()) {
+        transportData = snap.data();
+        localStorage.setItem('transport-cache', JSON.stringify(transportData));
+        renderTransport();
+      } else {
+        t.setDoc(t.doc(t.db, 'trip', 'transport'), DEFAULT_TRANSPORT).catch(err => console.error('交通初始化失敗:', err));
+      }
+    }, (err) => console.error('交通同步監聽失敗:', err));
+  };
+  if (t.authReady) subscribe();
+  else window.addEventListener('trip-auth-ready', subscribe, { once: true });
+}
+
+document.getElementById('transport-edit-toggle').addEventListener('click', function () {
+  const t = window.__trip;
+  if (!transportEditMode && (!t || !t.authReady)) {
+    alert('請先輸入密碼解鎖才能編輯');
+    return;
+  }
+  transportEditMode = !transportEditMode;
+  this.textContent = transportEditMode ? '✅ 完成編輯' : '✏️ 編輯模式';
+  renderTransport();
+});
+
+loadTransport();
+
+const DEFAULT_INFO = { cards: [
+  { title: "📶 網路", body: "eSIM出發前設定最方便" },
+  { title: "💴 換匯", body: "7-Eleven ATM可用台灣金融卡提款" },
+  { title: "🚨 緊急聯絡", body: "警察110・救護119・台灣駐日代表處+81-3-3280-7811" },
+  { title: "🚐 備用交通・私人包車", body: "<strong>Japan Tours - Car & Bus</strong>（山田研真）<br>📞 +81 80-1382-8209（電話/WhatsApp）<br>✉️ fujijapantour@gmail.com<br>📍 東京都千代田區東神田2丁目1-3みづほビル<br>💬 可用WeChat、LINE、WhatsApp聯絡<br><span style='color:var(--subtext);font-size:11px'>用途：機場接送、臨時包車，可作為計程車以外的備用聯絡方式</span>" },
+  { title: "🌡️ 1月天氣", body: "東京5–10°C，箱根2–8°C可能下雪" }
+]};
+
+let infoData = null;
+let infoEditMode = false;
+let infoUnsub = null;
+
+function ifEscape(str) {
+  return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function saveInfo() {
+  localStorage.setItem('info-cache', JSON.stringify(infoData));
+  const t = window.__trip;
+  if (t && t.authReady) {
+    t.setDoc(t.doc(t.db, 'trip', 'info'), infoData).catch(err => console.error('資訊同步失敗:', err));
+  }
+}
+
+function deleteInfoCard(idx) {
+  if (!confirm('確定要刪除這張卡片嗎？')) return;
+  infoData.cards.splice(idx, 1);
+  renderInfo();
+  saveInfo();
+}
+
+function openInfoCardForm(idx) {
+  const isNew = idx === null;
+  const card = isNew ? { title: '', body: '' } : infoData.cards[idx];
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;display:flex;align-items:flex-end;justify-content:center;';
+  overlay.innerHTML = `
+    <div style="background:var(--card-bg);width:100%;max-width:430px;max-height:85vh;overflow-y:auto;border-radius:16px 16px 0 0;padding:20px 16px 24px;">
+      <h3 style="font-size:15px;margin-bottom:12px;">${isNew ? '新增卡片' : '編輯卡片'}</h3>
+      <label style="font-size:12px;color:var(--subtext);">標題 *</label>
+      <input id="if-f-title" style="width:100%;padding:8px;margin:4px 0 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;" value="${ifEscape(card.title)}">
+      <label style="font-size:12px;color:var(--subtext);">內容（可用HTML，如&lt;br&gt;換行、&lt;a href&gt;連結）*</label>
+      <textarea id="if-f-body" style="width:100%;padding:8px;margin:4px 0 14px;border:1px solid var(--border);border-radius:8px;font-size:13px;min-height:120px;">${ifEscape(card.body)}</textarea>
+      <div style="display:flex;gap:8px;">
+        <button type="button" id="if-f-cancel" style="flex:1;padding:10px;border-radius:10px;border:1.5px solid var(--border);background:none;font-size:13px;cursor:pointer;">取消</button>
+        <button type="button" id="if-f-save" style="flex:1;padding:10px;border-radius:10px;border:none;background:var(--primary);color:white;font-size:13px;font-weight:600;cursor:pointer;">儲存</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+  overlay.querySelector('#if-f-cancel').addEventListener('click', () => overlay.remove());
+  overlay.querySelector('#if-f-save').addEventListener('click', () => {
+    const title = overlay.querySelector('#if-f-title').value.trim();
+    if (!title) { alert('標題不可空白'); return; }
+    const body = overlay.querySelector('#if-f-body').value;
+    const newCard = { title, body };
+    if (isNew) infoData.cards.push(newCard);
+    else infoData.cards[idx] = newCard;
+    overlay.remove();
+    renderInfo();
+    saveInfo();
+  });
+}
+
+function renderInfo() {
+  const root = document.getElementById('info-content');
+  if (!infoData) { root.innerHTML = ''; return; }
+  let html = '';
+  infoData.cards.forEach((card, idx) => {
+    html += `<div class="info-card">`
+      + `<div style="display:flex;align-items:center;justify-content:space-between;"><h3>${ifEscape(card.title)}</h3>`
+      + (infoEditMode ? `<span style="display:flex;gap:6px;flex-shrink:0;"><button type="button" class="if-edit-card" data-i="${idx}" style="border:none;background:none;color:var(--primary);cursor:pointer;font-size:13px;">✎</button><button type="button" class="if-del-card" data-i="${idx}" style="border:none;background:none;color:#c2410c;cursor:pointer;font-size:13px;">🗑</button></span>` : '')
+      + `</div><p>${card.body}</p></div>`;
+  });
+  if (infoEditMode) {
+    html += `<button type="button" id="if-add-card" style="width:100%;padding:12px;margin:8px 0 16px;border:1.5px dashed var(--primary);border-radius:10px;background:none;color:var(--primary);font-size:13px;font-weight:600;cursor:pointer;">+ 新增卡片</button>`;
+  }
+  root.innerHTML = html;
+  root.querySelectorAll('.if-edit-card').forEach(btn => btn.addEventListener('click', () => openInfoCardForm(+btn.dataset.i)));
+  root.querySelectorAll('.if-del-card').forEach(btn => btn.addEventListener('click', () => deleteInfoCard(+btn.dataset.i)));
+  const addBtn = document.getElementById('if-add-card');
+  if (addBtn) addBtn.addEventListener('click', () => openInfoCardForm(null));
+}
+
+function loadInfo() {
+  const cached = localStorage.getItem('info-cache');
+  infoData = cached ? JSON.parse(cached) : JSON.parse(JSON.stringify(DEFAULT_INFO));
+  renderInfo();
+
+  const t = window.__trip;
+  if (!t) return;
+  const subscribe = () => {
+    if (infoUnsub) return;
+    infoUnsub = t.onSnapshot(t.doc(t.db, 'trip', 'info'), (snap) => {
+      if (snap.exists()) {
+        infoData = snap.data();
+        localStorage.setItem('info-cache', JSON.stringify(infoData));
+        renderInfo();
+      } else {
+        t.setDoc(t.doc(t.db, 'trip', 'info'), DEFAULT_INFO).catch(err => console.error('資訊初始化失敗:', err));
+      }
+    }, (err) => console.error('資訊同步監聽失敗:', err));
+  };
+  if (t.authReady) subscribe();
+  else window.addEventListener('trip-auth-ready', subscribe, { once: true });
+}
+
+document.getElementById('info-edit-toggle').addEventListener('click', function () {
+  const t = window.__trip;
+  if (!infoEditMode && (!t || !t.authReady)) {
+    alert('請先輸入密碼解鎖才能編輯');
+    return;
+  }
+  infoEditMode = !infoEditMode;
+  this.textContent = infoEditMode ? '✅ 完成編輯' : '✏️ 編輯模式';
+  renderInfo();
+});
+
+loadInfo();
 </script>
 
 </body>
